@@ -18,8 +18,5 @@
     <ClCompile Include="Solar System.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\In class ex\light on sphere\light on sphere.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
