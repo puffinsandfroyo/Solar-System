@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\In class ex\light on sphere\light on sphere.cpp" />
     <ClCompile Include="Solar System.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
