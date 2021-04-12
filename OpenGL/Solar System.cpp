@@ -79,7 +79,11 @@ void setViewChoice()
 }
 
 void setInMotion(){
-	//set increments for motion,
+	//set increments for motion, used in collab with idleFunc
+}
+
+void idle(){
+
 }
 
 void keyboard(unsigned char key, int x, int y)
@@ -101,14 +105,17 @@ void keyboard(unsigned char key, int x, int y)
 		viewChoice++;
 		//if (viewChoice > 2 /*numViews*/) viewChoice = 0;
 		viewChoice %= 2;
+		setViewChoice();
 		break;
-	case 'a':		autoMotion = !autoMotion;
+	case 'a':
+		autoMotion = !autoMotion;
 		break;
 	default:
 		break;
 	}
-
+	
 	glutPostRedisplay();
+	reshape(500, 500);
 }
 int main(int argc, char** argv)
 {
@@ -121,6 +128,7 @@ int main(int argc, char** argv)
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
 	glutKeyboardFunc(keyboard);
+	glutIdleFunc(idle);
 	glutMainLoop();
 	return 0;
 }
