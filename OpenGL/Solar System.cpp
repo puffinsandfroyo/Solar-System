@@ -28,6 +28,14 @@ the other plannets. If that doesn't work, we might need to add a bunch of light 
 #include <iostream>
 using namespace std;
 
+
+//For our layout we will need 
+
+
+
+
+
+
 bool lightOn = true;
 float globalAmbient = 0.2;
 int quadrant = 1;
@@ -41,6 +49,8 @@ float matDiffuseR = 0.8, matDiffuseG = 0.8, matDiffuseB = 0.8;
 float matShini = 64.0;      // [0.0, 128.0]  higher -> smaller & brighter
 float lightDiffuse = 0.8;
 bool smoothShade = true;
+
+
 
 void setMaterials(void)
 {
@@ -67,7 +77,7 @@ void setMaterials(void)
 
 		switch (quadrant)
 		{
-		case 1: lightX = 1.0;  lightY = 0.0;  lightZ = 0.0;  break;
+		case 1: lightX = 0.0;  lightY = 0.0;  lightZ = 0.0;  break;
 		case 2: lightX = 1.0;  lightY = -1.0;  lightZ = 1.0;  break;
 		case 3: lightX = -1.0;  lightY = 1.0;  lightZ = 1.0;  break;
 		case 4: lightX = -1.0;  lightY = -1.0;  lightZ = 1.0;  break;
@@ -88,6 +98,7 @@ void setMaterials(void)
 		GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
 
 		// set properties this light 
+		
 		glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 		glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
 		glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
@@ -155,10 +166,11 @@ void setMaterials(void)
 			glShadeModel(GL_SMOOTH);
 		else
 			glShadeModel(GL_FLAT);
-
-		glutSolidSphere(1.0, 40, 32);
-		glTranslated(0.5, 0.5, 0.5);
-		glutSolidSphere(1.0, 40, 30);
+		glPushMatrix();
+		//glutSolidSphere(1.0, 40, 32);
+		glTranslated(1.75, 0, 0);
+		glutSolidSphere(0.5, 40, 30);
+		glPopMatrix();
 
 		glFlush();
 	}
