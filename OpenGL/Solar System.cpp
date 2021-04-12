@@ -24,6 +24,7 @@ As before, please add a star ‘*’ after the currently selected mouse-based menu o
 /* I have a plan to try to turn the sun transparent. That way we can put a light source on the origin and it will illuminate 
 the other plannets. If that doesn't work, we might need to add a bunch of light sources around the sun and dull them a little bit?*/
 
+#include <windows.h>
 #include <stdlib.h>
 #include "glut.h"
 #include <iostream>
@@ -44,12 +45,15 @@ void init(void)
 void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
-	glColor3f(1.0, 1.0, 1.0);
+	glColor3f(0.0, 1.0, 1.0);
 	glPushMatrix();
 	glutSolidSphere(1.0, 20, 16); // draw sun 
 	glRotatef((GLfloat)year, 0.0, 1.0, 0.0);
 	glTranslatef(2.0, 0.0, 0.0);
 	glRotatef((GLfloat)day, 0.0, 1.0, 0.0);
+
+	glColor3f(0.0, 0.0, 1.0);
+
 	glutSolidSphere(0.2, 10, 8); // draw smaller planet 
 	glPopMatrix();
 	glutSwapBuffers();
@@ -70,20 +74,20 @@ void setViewChoice()
 	switch (viewChoice)
 	{
 	case 0: xView = 0.0; yView = 0.0; zView = 5.0; break;
-	case 1: xView = 0.0; yView = 5.0; zView = 5.0; break;
-
-	
+	case 1: xView = 0.0; yView = 5.0; zView = 5.0; break;	
 	}
 	reshape(500, 500);
 	glutPostRedisplay();
 }
 
-void setInMotion(){
-	//set increments for motion, used in collab with idleFunc
-}
-
 void idle(){
+	if (autoMotion){
+		//day = (day + 10) % 360;
+		year = (year + 5) % 360;
+		Sleep(50);
+	}
 
+	glutPostRedisplay();
 }
 
 void keyboard(unsigned char key, int x, int y)
