@@ -1,11 +1,11 @@
 /*User-Interaction
 
-Add the following user-interactions:  
+Add the following user-interactions:
 
 Left  mouse-based menu
 lights
 global ambient light:  on (default), off
-positional light 1:  on (default), off 
+positional light 1:  on (default), off
 positional light 2:  on, off (default)
 directional light:  on, off (default)  -- optional
 
@@ -15,13 +15,13 @@ mode:  wireframe, filled – flat shading (default), filled – smooth shading
 On keyboard button ‘+’  rotate through the three levels of detail
 viewing: use polar coordinates to allow the viewer to move their viewpoint along a sphere surrounding the building. When zooming in, the LOD should switch automatically.
 
-As before, please add a star ‘*’ after the currently selected mouse-based menu option as feedback to the user.  
+As before, please add a star ‘*’ after the currently selected mouse-based menu option as feedback to the user.
 */
 
 
 
 //Kali Note:
-/* I have a plan to try to turn the sun transparent. That way we can put a light source on the origin and it will illuminate 
+/* I have a plan to try to turn the sun transparent. That way we can put a light source on the origin and it will illuminate
 the other plannets. If that doesn't work, we might need to add a bunch of light sources around the sun and dull them a little bit?*/
 
 #include <windows.h>
@@ -45,15 +45,13 @@ void init(void)
 void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
-	glColor3f(0.0, 1.0, 1.0);
+	glColor3f(1.0, 0.84, 0.0);	//sun ~ gold
 	glPushMatrix();
 	glutSolidSphere(1.0, 20, 16); // draw sun 
 	glRotatef((GLfloat)year, 0.0, 1.0, 0.0);
 	glTranslatef(2.0, 0.0, 0.0);
 	glRotatef((GLfloat)day, 0.0, 1.0, 0.0);
-
-	glColor3f(0.0, 0.0, 1.0);
-
+	glColor3f(0.0, 0.0, 1.0);	//planet ~ blue
 	glutSolidSphere(0.2, 10, 8); // draw smaller planet 
 	glPopMatrix();
 	glutSwapBuffers();
@@ -74,14 +72,14 @@ void setViewChoice()
 	switch (viewChoice)
 	{
 	case 0: xView = 0.0; yView = 0.0; zView = 5.0; break;
-	case 1: xView = 0.0; yView = 5.0; zView = 5.0; break;	
+	case 1: xView = 0.0; yView = 5.0; zView = 5.0; break;
 	}
 	reshape(500, 500);
 	glutPostRedisplay();
 }
 
-void idle(){
-	if (autoMotion){
+void idle() {
+	if (autoMotion) {
 		//day = (day + 10) % 360;
 		year = (year + 5) % 360;
 		Sleep(50);
@@ -117,7 +115,7 @@ void keyboard(unsigned char key, int x, int y)
 	default:
 		break;
 	}
-	
+
 	glutPostRedisplay();
 	reshape(500, 500);
 }
