@@ -100,7 +100,7 @@ void display(void)
 	glPushMatrix();
 	glutSolidSphere(1.0, 20, 16); // draw sun 
 	glRotatef((GLfloat)year, 0.0, 1.0, 0.0);
-	glTranslatef(2.0, 0.0, 0.0);
+	glTranslatef(2.0, 0.0, 0.0); 
 	glRotatef((GLfloat)day, 0.0, 1.0, 0.0);
 	glColor3f(0.0, 0.0, 1.0);	//planet ~ blue
 	glutSolidSphere(0.2, 10, 8); // draw smaller planet 
