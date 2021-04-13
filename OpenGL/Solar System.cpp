@@ -47,7 +47,7 @@ static int year = 0, day = 0, viewChoice = 0;
 bool autoMotion = true;
 
 float globalAmbient = 0.2;
-float lightX = 10.0, lightY = 10.0, lightZ = 10.0;
+float lightX = 0.0, lightY = 0.0, lightZ = 0.0;
 float lightDiffuse = 0.9;
 
 
@@ -56,7 +56,7 @@ void init(void)
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glShadeModel(GL_FLAT);
 	glEnable(GL_LIGHTING);
-	//glEnable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST);
 }
 
 void setViewChoice()
@@ -71,7 +71,7 @@ void setViewChoice()
 }
 
 void setLighting(void) {
-	const GLfloat DIRECTIONAL = 0.0;
+	const GLfloat DIRECTIONAL = 1.0;
 	const GLfloat POSITIONAL = 1.0;
 
 	// set global light properties
@@ -94,7 +94,7 @@ void setLighting(void) {
 
 void display(void)
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	setLighting();
 	glColor3f(1.0, 0.84, 0.0);	//sun ~ gold
 	glPushMatrix();
@@ -175,7 +175,7 @@ int main(int argc, char** argv)
 	glutInitWindowSize(500, 500);
 	glutInitWindowPosition(100, 100);
 	glutCreateWindow("Solar System");
-	//glEnable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST);
 	init();
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
