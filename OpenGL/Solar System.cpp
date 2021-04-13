@@ -28,23 +28,74 @@ the other plannets. If that doesn't work, we might need to add a bunch of light 
 #include <stdlib.h>
 #include "glut.h"
 #include <iostream>
+
+#define GlobalAmbientLight 1
+#define PositionalLight1 2
+#define PositionalLight2 3
+#define DirectionalLight 4
+
+#define Wireframe 5
+#define FlatShading 6
+#define SmoothShading 7
+
 using namespace std;
 
 float xView = 0, yView = 0.0, zView = 5.0;
 
 static int year = 0, day = 0, viewChoice = 0;
 
-bool autoMotion = false;
+bool autoMotion = true;
+
+float globalAmbient = 0.2;
+float lightX = 10.0, lightY = 10.0, lightZ = 10.0;
+float lightDiffuse = 0.9;
+
 
 void init(void)
 {
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glShadeModel(GL_FLAT);
+	glEnable(GL_LIGHTING);
+	//glEnable(GL_DEPTH_TEST);
+}
+
+void setViewChoice()
+{
+	switch (viewChoice)
+	{
+	case 0: xView = 0.0; yView = 0.0; zView = 5.0; break;
+	case 1: xView = 0.0; yView = 5.0; zView = 5.0; break;
+	}
+	//reshape(500, 500);
+	//glutPostRedisplay();
+}
+
+void setLighting(void) {
+	const GLfloat DIRECTIONAL = 0.0;
+	const GLfloat POSITIONAL = 1.0;
+
+	// set global light properties
+	GLfloat lmodel_ambient[] = { globalAmbient, globalAmbient, globalAmbient, 1.0 };
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
+
+	GLfloat light_position[] = { lightX, lightY, lightZ, DIRECTIONAL };
+	GLfloat light_ambient[] = { 0.7, 0.7, 0.7, 1.0 };
+	GLfloat light_diffuse[] = { lightDiffuse, lightDiffuse, lightDiffuse, 1.0 };
+	GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+
+	// set properties this light 
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+
+	glEnable(GL_LIGHT0);
 }
 
 void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
+	setLighting();
 	glColor3f(1.0, 0.84, 0.0);	//sun ~ gold
 	glPushMatrix();
 	glutSolidSphere(1.0, 20, 16); // draw sun 
@@ -67,16 +118,9 @@ void reshape(int w, int h)
 	glLoadIdentity();
 	gluLookAt(xView, yView, zView, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 }
-void setViewChoice()
-{
-	switch (viewChoice)
-	{
-	case 0: xView = 0.0; yView = 0.0; zView = 5.0; break;
-	case 1: xView = 0.0; yView = 5.0; zView = 5.0; break;
-	}
-	reshape(500, 500);
-	glutPostRedisplay();
-}
+
+
+
 
 void idle() {
 	if (autoMotion) {
@@ -119,18 +163,30 @@ void keyboard(unsigned char key, int x, int y)
 	glutPostRedisplay();
 	reshape(500, 500);
 }
+void processLightSubmenuEvents(int option) {
+	//switch (option) {
+	//case GlobalAmbientLight: 
+	//}
+}
 int main(int argc, char** argv)
 {
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(500, 500);
 	glutInitWindowPosition(100, 100);
-	glutCreateWindow(argv[0]);
+	glutCreateWindow("Solar System");
+	//glEnable(GL_DEPTH_TEST);
 	init();
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
 	glutKeyboardFunc(keyboard);
 	glutIdleFunc(idle);
+
+	// create menu
+	int lightSubmenu;
+	lightSubmenu = glutCreateMenu(processLightSubmenuEvents);
+
+
 	glutMainLoop();
 	return 0;
 }
