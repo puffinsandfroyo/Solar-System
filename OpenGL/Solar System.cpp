@@ -20,9 +20,6 @@ As before, please add a star ‘*’ after the currently selected mouse-based menu o
 
 
 
-//Kali Note:
-/* I have a plan to try to turn the sun transparent. That way we can put a light source on the origin and it will illuminate
-the other plannets. If that doesn't work, we might need to add a bunch of light sources around the sun and dull them a little bit?*/
 
 #include <windows.h>
 #include <stdlib.h>
@@ -32,7 +29,7 @@ the other plannets. If that doesn't work, we might need to add a bunch of light 
 #define GlobalAmbientLight 1
 #define PositionalLight1 2
 #define PositionalLight2 3
-#define DirectionalLight 4
+//#define DirectionalLight 4
 
 #define Wireframe 5
 #define FlatShading 6
@@ -45,6 +42,7 @@ float xView = 0, yView = 0.0, zView = 5.0;
 static int year = 0, day = 0, viewChoice = 0;
 
 bool autoMotion = true;
+bool globalAmbientLightOn = true, positionalLight1On = true, positionalLight2On = false;
 
 float globalAmbient = 0.2;
 float lightX = 0.0, lightY = 0.0, lightZ = 0.0;
@@ -73,7 +71,6 @@ void setViewChoice()
 void setLighting(void) {
 	const GLfloat DIRECTIONAL = 1.0;
 	const GLfloat POSITIONAL = 1.0;
-
 	// set global light properties
 	GLfloat lmodel_ambient[] = { globalAmbient, globalAmbient, globalAmbient, 1.0 };
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
@@ -126,6 +123,7 @@ void idle() {
 	if (autoMotion) {
 		//day = (day + 10) % 360;
 		year = (year + 5) % 360;
+		day = (day + 10) % 360;
 		Sleep(50);
 	}
 
@@ -164,9 +162,28 @@ void keyboard(unsigned char key, int x, int y)
 	reshape(500, 500);
 }
 void processLightSubmenuEvents(int option) {
-	//switch (option) {
-	//case GlobalAmbientLight: 
-	//}
+	switch (option) {
+	case GlobalAmbientLight: if (globalAmbientLightOn == true)
+								{
+									globalAmbient = 0.2;
+								}		
+						   else
+								{
+									globalAmbient = 0.0;
+								}
+						   globalAmbientLightOn = !globalAmbientLightOn;
+						   break;
+	case PositionalLight1: break;	
+	case PositionalLight2: break;
+		//case DirectionalLight:
+	}
+}
+	void processDisplaySubmenuEvents(int option){
+		switch(option){
+		case Wireframe: break;
+		case FlatShading: break;
+		case SmoothShading: break;
+	}
 }
 int main(int argc, char** argv)
 {
@@ -179,13 +196,21 @@ int main(int argc, char** argv)
 	init();
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
+
+
 	glutKeyboardFunc(keyboard);
 	glutIdleFunc(idle);
 
 	// create menu
-	int lightSubmenu;
-	lightSubmenu = glutCreateMenu(processLightSubmenuEvents);
+	//int lightSubmenu;
+	//lightSubmenu = 
+	glutCreateMenu(processLightSubmenuEvents);
+	glutAddMenuEntry("Ambient Light", GlobalAmbientLight);
+	glutAttachMenu(GLUT_LEFT_BUTTON);
 
+	glutCreateMenu(processDisplaySubmenuEvents);
+	glutAddMenuEntry("Wire Frame", Wireframe);
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
 	glutMainLoop();
 	return 0;
