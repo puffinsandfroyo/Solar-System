@@ -19,8 +19,6 @@ As before, please add a star ‘*’ after the currently selected mouse-based menu o
 */
 
 
-
-
 #include <windows.h>
 #include <stdlib.h>
 #include "glut.h"
@@ -39,7 +37,7 @@ using namespace std;
 
 float xView = 0, yView = 0.0, zView = 5.0;
 
-static int year = 0, day = 0, viewChoice = 0;
+static int year = 0, day = 0, viewChoice = 0, lod = 0; //LocalDiscard? it kept changing what I was typing,
 
 bool autoMotion = true;
 bool globalAmbientLightOn = true, positionalLight1On = true, positionalLight2On = false;
@@ -54,6 +52,7 @@ void init(void)
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glShadeModel(GL_FLAT);
 	glEnable(GL_LIGHTING);
+	glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_DEPTH_TEST);
 }
 
@@ -91,17 +90,24 @@ void setLighting(void) {
 
 void display(void)
 {
-	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	setLighting();
-	glColor3f(1.0, 0.84, 0.0);	//sun ~ gold
+	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);	//z-buffering
+	
 	glPushMatrix();
+	glColor3f(1.0, 0.84, 0.0);	//sun ~ gold
 	glutSolidSphere(1.0, 20, 16); // draw sun 
 	glRotatef((GLfloat)year, 0.0, 1.0, 0.0);
 	glTranslatef(2.0, 0.0, 0.0); 
 	glRotatef((GLfloat)day, 0.0, 1.0, 0.0);
 	glColor3f(0.0, 0.0, 1.0);	//planet ~ blue
-	glutSolidSphere(0.2, 10, 8); // draw smaller planet 
+	glutSolidSphere(0.3, 10, 8); // draw smaller planet 
+	glTranslatef(0.50, 0.0, 0.0);
+	glColor3f(0.961, 0.949, 0.816); //moon ~ white
+	glutSolidSphere(0.1, 10, 8);
 	glPopMatrix();
+	//glTranslatef(1.0, 0.0, 0.0);
+	glutSolidSphere(0.3, 10, 8);
+	glPopMatrix();
+	setLighting();
 	glutSwapBuffers();
 }
 
@@ -115,8 +121,6 @@ void reshape(int w, int h)
 	glLoadIdentity();
 	gluLookAt(xView, yView, zView, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 }
-
-
 
 
 void idle() {
@@ -147,12 +151,15 @@ void keyboard(unsigned char key, int x, int y)
 		break;
 	case 'v':
 		viewChoice++;
-		//if (viewChoice > 2 /*numViews*/) viewChoice = 0;
 		viewChoice %= 2;
 		setViewChoice();
 		break;
 	case 'a':
 		autoMotion = !autoMotion;
+		break;
+	case '+':
+		lod++;
+		lod %= 3;
 		break;
 	default:
 		break;
@@ -167,14 +174,16 @@ void processLightSubmenuEvents(int option) {
 								{
 									globalAmbient = 0.2;
 								}		
-						   else
+							 else
 								{
 									globalAmbient = 0.0;
 								}
 						   globalAmbientLightOn = !globalAmbientLightOn;
 						   break;
 	case PositionalLight1: break;	
+		//star 1?
 	case PositionalLight2: break;
+		//Star 2?
 		//case DirectionalLight:
 	}
 }
