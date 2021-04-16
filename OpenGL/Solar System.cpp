@@ -18,6 +18,13 @@ viewing: use polar coordinates to allow the viewer to move their viewpoint along
 As before, please add a star ‘*’ after the currently selected mouse-based menu option as feedback to the user.
 */
 
+/*texture mapping resources:
+https://community.khronos.org/t/how-to-load-an-image-in-opengl/71231
+https://stackoverflow.com/questions/31799670/applying-map-of-the-earth-texture-a-sphere
+https://www.codeguru.com/cpp/g-m/opengl/texturemapping/article.php/c5589/A-Texture-Mapping-Technique-Using-OpenGL.htm
+http://planetpixelemporium.com/earth.html
+http://ogldev.atspace.co.uk/www/tutorial16/tutorial16.html
+*/
 
 #include <windows.h>
 #include <stdlib.h>
