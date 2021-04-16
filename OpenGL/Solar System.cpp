@@ -54,6 +54,7 @@ void init(void)
 	glEnable(GL_LIGHTING);
 	glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_TEXTURE_2D);
 }
 
 void setViewChoice()
@@ -94,26 +95,26 @@ void display(void)
 	
 	glPushMatrix();
 
-	glColor3f(1.0, 0.84, 0.0);	//sun ~ gold
+	glColor4f(1.0, 0.84, 0.0, 1.0);	//sun ~ gold
 	glutSolidSphere(1.0, 20, 16); // draw sun 
 	glPushMatrix();
 	glRotatef((GLfloat)year, 0.0, 1.0, 0.0); //Rotate for the year
 
 	glTranslatef(2.0, 0.0, 0.0); //Move away from sun 
-	glColor3f(0.0, 0.0, 1.0);	//planet ~ blue
+	glColor4f(0.0, 0.0, 1.0, 1.0);	//planet ~ blue
 	glutSolidSphere(0.3, 10, 8); // draw planet earth
 	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Rotate planet around y axis 	
 	
 
 	glTranslatef(0.50, 0.0, 0.0); //Move away from earth 
-	glColor3f(0.961, 0.949, 0.816); //moon ~ white
+	glColor4f(0.961, 0.949, 0.816, 1.0); //moon ~ white
 	glutSolidSphere(0.1, 10, 8); //draw moon
 	glPopMatrix(); //Move back to the sun origin 
 
 	glRotatef((GLfloat)(((year - 50)%360) ), 0.0, 1.0, 0.0); 
 	glTranslatef(3.0, 0.0, 0.0); //Move a little farther out than earth
 	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //rotate day
-	glColor3f(1.0, 0.0, 0.0);
+	glColor4f(1.0, 0.0, 0.0, 1.0);
 	glutSolidSphere(0.3, 10, 8);
 	glPopMatrix(); // Go back to the origin
 
