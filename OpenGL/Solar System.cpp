@@ -36,9 +36,10 @@ http://ogldev.atspace.co.uk/www/tutorial16/tutorial16.html
 #define PositionalLight2 3
 //#define DirectionalLight 4
 
-#define Wireframe 5
-#define FlatShading 6
-#define SmoothShading 7
+#define WireFrame 5
+#define SolidFrame 6
+#define FlatShading 7
+#define SmoothShading 8
 
 using namespace std;
 
@@ -48,11 +49,14 @@ static int year = 0, day = 0, viewChoice = 0, lod = 0;
 
 bool autoMotion = false;
 bool globalAmbientLightOn = true, positionalLight1On = true, positionalLight2On = false;
+bool wireframe = false, solidframe = true, flatshading = false, smoothshading = true;
+
 
 float globalAmbient = 0.2;
 float lightX = 0.0, lightY = 0.0, lightZ = 0.0;
 float lightDiffuse = 0.9;
 
+int width = 500, height = 500;
 
 void init(void)
 {
@@ -96,10 +100,28 @@ void setLighting(void) {
 	glEnable(GL_LIGHT0);
 }
 
+void setNightSky(void)
+{
+	int numPoints = 3000;
+
+	glPointSize(5.0);
+	glColor4f(1.0, 1.0, 1.0, 1.0);
+	glBegin(GL_POINTS);
+	for (int x = 0; x < numPoints; x++) {
+			glVertex3i(rand()%-10, rand()%height, rand()%width);
+	}
+	glEnd();
+
+	//glFlush();
+	glutPostRedisplay();
+}
+
 void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);	//z-buffering
 	
+	setNightSky();
+
 	glPushMatrix();
 
 	glColor4f(1.0, 0.84, 0.0, 1.0);	//sun ~ gold
@@ -148,7 +170,6 @@ void idle() {
 		day = (day + 10) % 360;
 		Sleep(50);
 	}
-
 	glutPostRedisplay();
 }
 
@@ -188,35 +209,44 @@ void keyboard(unsigned char key, int x, int y)
 }
 void processLightSubmenuEvents(int option) {
 	switch (option) {
-	case GlobalAmbientLight: if (globalAmbientLightOn == true)
-								{
-									globalAmbient = 0.2;
-								}		
-							 else
-								{
-									globalAmbient = 0.0;
-								}
-						   globalAmbientLightOn = !globalAmbientLightOn;
-						   break;
-	case PositionalLight1: break;	
-		//star 1?
-	case PositionalLight2: break;
-		//Star 2?
-		//case DirectionalLight:
+	case GlobalAmbientLight:	if (globalAmbientLightOn)	globalAmbient = 0.2;		
+								else globalAmbient = 0.0;
+								globalAmbientLightOn = !globalAmbientLightOn;
+								break;
+	case PositionalLight1:		if (positionalLight1On);
+								else;
+								positionalLight1On = !positionalLight1On;
+								break;	
+								//star 1?
+	case PositionalLight2:		if (positionalLight2On);
+								else;
+								positionalLight2On = !positionalLight2On;
+								break;
+								//Star 2?
+	//case DirectionalLight:
 	}
 }
 	void processDisplaySubmenuEvents(int option){
 		switch(option){
-		case Wireframe: break;
-		case FlatShading: break;
-		case SmoothShading: break;
+		case WireFrame:		wireframe = true;
+							solidframe = false;
+							break;
+		case SolidFrame:	wireframe = false;
+							solidframe = true;
+							break;
+		case FlatShading:	flatshading = true;
+							smoothshading = false; 
+							break;
+		case SmoothShading:	flatshading = false; 
+							smoothshading = true; 
+							break;
 	}
 }
 int main(int argc, char** argv)
 {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	glutInitWindowSize(500, 500);
+	glutInitWindowSize(width, height);
 	glutInitWindowPosition(100, 100);
 	glutCreateWindow("Solar System");
 	glEnable(GL_DEPTH_TEST);
@@ -236,7 +266,10 @@ int main(int argc, char** argv)
 	glutAttachMenu(GLUT_LEFT_BUTTON);
 
 	glutCreateMenu(processDisplaySubmenuEvents);
-	glutAddMenuEntry("Wire Frame", Wireframe);
+	glutAddMenuEntry("Wire Frame", WireFrame);
+	glutAddMenuEntry("Solid Frame", SolidFrame);
+	glutAddMenuEntry("Flat Shading", FlatShading);
+	glutAddMenuEntry("Smooth Shading", SmoothShading);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
 	glutMainLoop();
