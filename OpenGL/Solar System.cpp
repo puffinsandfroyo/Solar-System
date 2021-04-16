@@ -39,7 +39,7 @@ float xView = 0, yView = 0.0, zView = 5.0;
 
 static int year = 0, day = 0, viewChoice = 0, lod = 0; //LocalDiscard? it kept changing what I was typing,
 
-bool autoMotion = true;
+bool autoMotion = false;
 bool globalAmbientLightOn = true, positionalLight1On = true, positionalLight2On = false;
 
 float globalAmbient = 0.2;
@@ -93,20 +93,31 @@ void display(void)
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);	//z-buffering
 	
 	glPushMatrix();
+
 	glColor3f(1.0, 0.84, 0.0);	//sun ~ gold
 	glutSolidSphere(1.0, 20, 16); // draw sun 
-	glRotatef((GLfloat)year, 0.0, 1.0, 0.0);
-	glTranslatef(2.0, 0.0, 0.0); 
-	glRotatef((GLfloat)day, 0.0, 1.0, 0.0);
+	glRotatef((GLfloat)year, 0.0, 1.0, 0.0); //Rotate for the year
+
+	glTranslatef(2.0, 0.0, 0.0); //Move away from sun 
 	glColor3f(0.0, 0.0, 1.0);	//planet ~ blue
-	glutSolidSphere(0.3, 10, 8); // draw smaller planet 
-	glTranslatef(0.50, 0.0, 0.0);
+	glutSolidSphere(0.3, 10, 8); // draw planet earth
+	glPushMatrix();
+	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Rotate planet around y axis 	
+	
+
+	glTranslatef(0.50, 0.0, 0.0); //Move away from earth 
 	glColor3f(0.961, 0.949, 0.816); //moon ~ white
-	glutSolidSphere(0.1, 10, 8);
-	glPopMatrix();
-	//glTranslatef(1.0, 0.0, 0.0);
+	glutSolidSphere(0.1, 10, 8); //draw moon
+	glPopMatrix(); //Move back to the earth's distance from the sun 
+	//glPopMatrix(); //Stop spinning (day)
+	//glPopMatrix(); //Go back to the sun position
+	
+	glTranslatef(2.5, 0.0, 0.0); //Move a little farther out
+	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //rotate day
+	glColor3f(1.0, 0.0, 0.0);
 	glutSolidSphere(0.3, 10, 8);
-	glPopMatrix();
+	glPopMatrix(); // Go back to the distance
+
 	setLighting();
 	glutSwapBuffers();
 }
