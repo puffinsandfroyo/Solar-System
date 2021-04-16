@@ -48,7 +48,7 @@ float xView = 0, yView = 0.0, zView = 5.0;
 static int year = 0, day = 0, viewChoice = 0, lod = 0; 
 
 bool autoMotion = false;
-bool globalAmbientLightOn = true, positionalLight1On = true, positionalLight2On = false;
+bool globalAmbientLightOn = true, positionalLight1On = false, positionalLight2On = false;
 bool wireframe = false, solidframe = true, flatshading = false, smoothshading = true;
 
 
@@ -58,6 +58,23 @@ float lightDiffuse = 0.9;
 
 int width = 500, height = 500;
 
+void setNightSky(void)
+{
+	glClearColor(0.0, 0.0, 0.0, 0.0);
+	int numPoints = 3000;
+
+	glPointSize(5.0);
+	glColor4f(1.0, 1.0, 1.0, 1.0);
+	glBegin(GL_POINTS);
+	for (int x = 0; x < numPoints; x++) {
+		glVertex3i(rand() % -10, rand() % height, rand() % width);
+	}
+	glEnd();
+
+	glFlush();
+	//glutPostRedisplay();
+}
+
 void init(void)
 {
 	glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -66,6 +83,8 @@ void init(void)
 	glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
+
+	setNightSky();
 }
 
 void setViewChoice()
@@ -87,7 +106,7 @@ void setLighting(void) {
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
 
 	GLfloat light_position[] = { lightX, lightY, lightZ, DIRECTIONAL };
-	GLfloat light_ambient[] = { 0.7, 0.7, 0.7, 1.0 };
+	GLfloat light_ambient[] = { 0.8, 0.8, 0.8, 1.0 };
 	GLfloat light_diffuse[] = { lightDiffuse, lightDiffuse, lightDiffuse, 1.0 };
 	GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
 
@@ -97,31 +116,27 @@ void setLighting(void) {
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
 
-	glEnable(GL_LIGHT0);
-}
+	if (positionalLight1On == true){
+	GLfloat light_position[] = { 8, 8, 8, DIRECTIONAL };
+	GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 1.0 };
+	GLfloat light_diffuse[] = { lightDiffuse, lightDiffuse, lightDiffuse, 1.0 };
+	GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
 
-void setNightSky(void)
-{
-	int numPoints = 3000;
-
-	glPointSize(5.0);
-	glColor4f(1.0, 1.0, 1.0, 1.0);
-	glBegin(GL_POINTS);
-	for (int x = 0; x < numPoints; x++) {
-			glVertex3i(rand()%-10, rand()%height, rand()%width);
+	//glLightfv(GL_LIGHT1, GL_POSITION, light_position);
+	//glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient);
+	//glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse);
+	//glLightfv(GL_LIGHT1, GL_SPECULAR, light_specular);
 	}
-	glEnd();
 
-	//glFlush();
-	glutPostRedisplay();
+	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHT1);
 }
+
 
 void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);	//z-buffering
 	
-	setNightSky();
-
 	glPushMatrix();
 
 	glColor4f(1.0, 0.84, 0.0, 1.0);	//sun ~ gold
@@ -205,17 +220,31 @@ void keyboard(unsigned char key, int x, int y)
 	}
 
 	glutPostRedisplay();
-	reshape(500, 500);
+	reshape(width, height);
 }
+
+void specialInput(int key, int x, int y) {
+	switch (key) {
+		case GLUT_KEY_UP: printf("rotate y up"); break;		//implement zoom as scroll wheel?
+		case GLUT_KEY_DOWN: printf("rotate y down"); break;
+		case GLUT_KEY_LEFT: printf("rotate x left"); break;
+		case GLUT_KEY_RIGHT: printf("rotate x right"); break;
+	}
+}
+
+void mouse(int button, int state, int x, int y) {
+	if ((button == 4) || (button == 5))
+		//scroll conditions ~ zoom in and out ~ should use glutMouseWheelFunc instead?
+		;
+}
+
 void processLightSubmenuEvents(int option) {
 	switch (option) {
 	case GlobalAmbientLight:	if (globalAmbientLightOn)	globalAmbient = 0.2;		
 								else globalAmbient = 0.0;
 								globalAmbientLightOn = !globalAmbientLightOn;
 								break;
-	case PositionalLight1:		if (positionalLight1On);
-								else;
-								positionalLight1On = !positionalLight1On;
+	case PositionalLight1:		positionalLight1On = !positionalLight1On;
 								break;	
 								//star 1?
 	case PositionalLight2:		if (positionalLight2On);
@@ -242,6 +271,7 @@ void processLightSubmenuEvents(int option) {
 							break;
 	}
 }
+
 int main(int argc, char** argv)
 {
 	glutInit(&argc, argv);
@@ -256,6 +286,8 @@ int main(int argc, char** argv)
 
 
 	glutKeyboardFunc(keyboard);
+	glutMouseFunc(mouse);
+	glutSpecialFunc(specialInput);
 	glutIdleFunc(idle);
 
 	// create menu
@@ -263,6 +295,8 @@ int main(int argc, char** argv)
 	//lightSubmenu = 
 	glutCreateMenu(processLightSubmenuEvents);
 	glutAddMenuEntry("Ambient Light", GlobalAmbientLight);
+	glutAddMenuEntry("Positional light 1", positionalLight1On);
+	glutAddMenuEntry("Positional light 2", positionalLight2On);
 	glutAttachMenu(GLUT_LEFT_BUTTON);
 
 	glutCreateMenu(processDisplaySubmenuEvents);
