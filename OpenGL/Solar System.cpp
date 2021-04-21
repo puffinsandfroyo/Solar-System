@@ -184,7 +184,7 @@ void display(void)
 
 	glPopMatrix();  //Matrix 1(rotate)
 	glPushMatrix(); //Now working on Matrix 2(rotate//)
-	//--Make Earth--//
+	//--Make Earth and moon--//
 	{glTranslatef(3.5, 0.0, 0.0); //Matrix 2 (rotate// translate)
 	glColor4f(0.0, 0.0, 0.8, 1.0);
 	if (solidframe == true) {
@@ -209,7 +209,7 @@ void display(void)
 	glPopMatrix(); //Matrix 1 (rotate)
 	glPushMatrix(); //Matrix 2(rotate//) 
 	
-	 
+	 //--Make Mars--//
 	{glTranslatef(4.5, 0.0, 0.0); //Matrix 2(rotate// translate)
 	glColor4f(0.8, 0.0, 0.0, 1.0);
 	if (solidframe == true) {
@@ -221,14 +221,30 @@ void display(void)
 	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
 	}
 	glPopMatrix();
-	glPopMatrix(); // Go back to the origin
 	
-	//Jupiter (light brown)
+	glPushMatrix();//Now working on Matrix 2(rotate//)
+
+	//--Make Jupiter--// (light brown)
+	{//glTranslatef(4.5, 0.0, 0.0);
+		glTranslatef(5.75, 0.0, 0.0); //Matrix 2(rotate//translate)
+		glColor4f(0.5, 0.2, 0.1, 1.0);
+		if (solidframe == true) {
+			glutSolidSphere(0.1, 10, 8);
+		}
+		else if (wireframe == true) {
+			glutWireSphere(0.8, 10, 8);
+		}
+		glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
+	}
+	
+	//glPushMatrix();//Now working on Matrix 2(rotate//)
 	//Saturn (orange yellow)
 	//Uranus (cyan)
 	//Neptune (light blue)
 	//Pluto (small light brown)
 
+	glPopMatrix(); //Matrix 1(rotate)
+	glPopMatrix(); // Go back to the origin
 	setLighting();
 	glutSwapBuffers();
 }
