@@ -66,9 +66,10 @@ void setNightSky(void)
 	glPointSize(5.0);
 	glColor4f(1.0, 1.0, 1.0, 1.0);
 	glBegin(GL_POINTS);
-	for (int x = 0; x < numPoints; x++) {
-		glVertex3i(rand() % -10, rand() % height, rand() % width);
-	}
+	//for (int x = 0; x < numPoints; x++) {
+	//	glVertex3i(rand() % -10, rand() % height, rand() % width);
+	//}
+	glVertex3i(0, 5, 5);
 	glEnd();
 
 	glFlush();
@@ -78,6 +79,7 @@ void setNightSky(void)
 void init(void)
 {
 	glClearColor(0.0, 0.0, 0.0, 0.0);
+	glMatrixMode(GL_MODELVIEW);
 	glShadeModel(GL_FLAT);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_COLOR_MATERIAL);
@@ -136,11 +138,18 @@ void setLighting(void) {
 void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);	//z-buffering
+	
+
 	glPushMatrix();
 
 	glColor4f(1.0, 0.84, 0.0, 1.0);	//sun ~ gold
-	glutSolidSphere(1.0, 20, 16); // draw sun 
-	//glPushMatrix();
+	if (solidframe == true) {
+		glutSolidSphere(1.0, 20, 16); // draw sun 
+	}
+	else if (wireframe == true) {
+		glutWireSphere(1.0, 20, 18);
+	}
+								  //glPushMatrix();
 	glRotatef((GLfloat)year, 0.0, 1.0, 0.0); //Rotate for the year
 	glPushMatrix();
 	//Mercury (dark brown)
@@ -149,26 +158,46 @@ void display(void)
 
 	glTranslatef(4.5, 0.0, 0.0); //Move away from sun 
 	glColor4f(0.0, 0.0, 1.0, 1.0);	//planet ~ blue
-	glutSolidSphere(0.3, 10, 8); // draw planet earth
+	if (solidframe == true) {
+		glutSolidSphere(0.3, 10, 8); // draw planet earth
+	}
+	else if(wireframe == true) {
+		glutWireSphere(0.3, 10, 8);
+	}
 	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Rotate planet around y axis 	
 	
 
 	glTranslatef(0.50, 0.0, 0.0); //Move away from earth 
 	glColor4f(0.961, 0.949, 0.816, 1.0); //moon ~ white
-	glutSolidSphere(0.1, 10, 8); //draw moon
+	if (solidframe == true) {
+		glutSolidSphere(0.1, 10, 8);
+	}
+	else if (wireframe == true) {
+		glutWireSphere(0.1, 10, 8);//draw moon
+	}
 	glPopMatrix(); //Move back to the sun origin 
 
 	glTranslatef(1.5, 0.0, 0.0);
 	glRotatef((GLfloat)day, 0.0, 1.0, 0.0);
 	glColor4f(0.5, 0.2, 0.1, 1.0);
-	glutSolidSphere(0.1, 10, 8);
+	if (solidframe == true) {
+		glutSolidSphere(0.1, 10, 8);
+	}
+	else if (wireframe == true) {
+		glutWireSphere(0.1, 10, 8);
+	}
 	//glPopMatrix();
 
 	//glRotatef((GLfloat)(((year)%360) ), 0.0, 1.0, 0.0); 
 	glTranslatef(5.5, 0.0, 0.0); //Move a little farther out than earth
 	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //rotate day
 	glColor4f(1.0, 0.0, 0.0, 1.0);
-	glutSolidSphere(0.3, 10, 8);
+	if (solidframe == true) {
+		glutSolidSphere(0.3, 10, 8);
+	}
+	else if (wireframe == true) {
+		glutWireSphere(0.3, 10, 8);
+	}
 	glPopMatrix(); // Go back to the origin
 	
 	//Jupiter (light brown)
