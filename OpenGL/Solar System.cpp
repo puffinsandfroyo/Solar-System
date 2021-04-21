@@ -141,7 +141,7 @@ void display(void)
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);	//z-buffering
 	
 
-	glPushMatrix(); //Identity
+	glPushMatrix(); //Identity (Matrix 0) Now editing Matrix 1
 	//--Make Sun--//
 	{
 		glColor4f(1.0, 0.84, 0.0, 1.0);	//sun ~ gold
@@ -152,14 +152,14 @@ void display(void)
 			glutWireSphere(1.0, 20, 18);
 		}
 		//glPushMatrix();
-		glRotatef((GLfloat)year, 0.0, 1.0, 0.0); //Rotate for the year
+		glRotatef((GLfloat)year, 0.0, 1.0, 0.0); //Matrix 1 (sun) (rotate)
 	}
-	glPushMatrix(); //Year Rotate//
+	glPushMatrix(); //Working on Matrix 2 (planet) (rotate//)
 	//Mercury (dark brown)
 		
 	//Mercury
 	{//glTranslatef(4.5, 0.0, 0.0);
-	glTranslatef(1.5, 0.0, 0.0); //Year rotate// + translate
+	glTranslatef(1.5, 0.0, 0.0); //Matrix 2(rotate//translate)
 	glColor4f(0.5, 0.2, 0.1, 1.0);
 	if (solidframe == true) {
 		glutSolidSphere(0.1, 10, 8);
@@ -167,14 +167,13 @@ void display(void)
 	else if (wireframe == true) {
 		glutWireSphere(0.1, 10, 8);
 	}
-	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Year rotate// + translate + rotate
-	
-
+	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
 	}
-	glPopMatrix(); //Year rotate//
-	
+	glPopMatrix(); //Matrix 1(rotate)
+	glPushMatrix();//Now working on Matrix 2(rotate//)
+
 	//Venus (golden)
-	glTranslatef(2.5, 0.0, 0.0); //Year rotate// + translate
+	glTranslatef(2.5, 0.0, 0.0); //Matrix 2(rotate// translate)
 	glColor4f(0.3, 0.3, 0.1, 1.0);
 	if (solidframe == true) {
 		glutSolidSphere(0.1, 10, 8);
@@ -182,25 +181,23 @@ void display(void)
 	else if (wireframe == true) {
 		glutWireSphere(0.1, 10, 8);
 	}
-	glPushMatrix(); //Year rotate// + translate// //Without this one, it goes crazy but stacks the translate from 2.5. Why is it required?
-	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Year rotate// + translate// + day rotate
 
-	glPopMatrix();  //Year rotate// + translate//
-	
+	glPopMatrix();  //Matrix 1(rotate)
+	glPushMatrix(); //Now working on Matrix 2(rotate//)
 	//--Make Earth--//
-	{glTranslatef(1.5, 0.0, 0.0); //Year Rotate// + Translate 
-	glColor4f(0.0, 0.0, 1.0, 1.0);
+	{glTranslatef(3.5, 0.0, 0.0); //Matrix 2 (rotate// translate)
+	glColor4f(0.0, 0.0, 0.8, 1.0);
 	if (solidframe == true) {
 		glutSolidSphere(0.3, 10, 8);
 	}
 	else if (wireframe == true) {
 		glutWireSphere(0.3, 10, 8);
 	}
-	glPushMatrix();					 //New level
-	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Year Rotate// + translate// + rotate	
+	glPushMatrix();					//Matrix 3 (moon) (rotate// translate)
+	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 3 (rotate// translate// rotate)	
 	
 	//Make Moon
-	{glTranslatef(0.50, 0.0, 0.0); //Year Rotate + translate// + rotate + translate 
+	{glTranslatef(0.50, 0.0, 0.0); //Matrix 3 (rotate// translate// rotate, translate) 
 	glColor4f(0.961, 0.949, 0.816, 1.0); 
 	if (solidframe == true) {
 		glutSolidSphere(0.1, 10, 8);
@@ -208,35 +205,22 @@ void display(void)
 	else if (wireframe == true) {
 		glutWireSphere(0.1, 10, 8);//draw moon
 	}}}
-	glPopMatrix(); //Year Rotate + translate
+	glPopMatrix(); //Matrix 2(rotate// translate//)
+	glPopMatrix(); //Matrix 1 (rotate)
+	glPushMatrix(); //Matrix 2(rotate//) 
 	
-	/*
-	//Mercury
-	{//glTranslatef(4.5, 0.0, 0.0);
-	glTranslatef(1.5, 0.0, 0.0); //Year rotate// + translate// + translate
-	glColor4f(0.5, 0.2, 0.1, 1.0);
-	if (solidframe == true) {
-		glutSolidSphere(0.1, 10, 8);
-	}
-	else if (wireframe == true) {
-		glutWireSphere(0.1, 10, 8);
-	}
-	glRotatef((GLfloat)day, 0.0, 1.0, 0.0);
-	
-
-	}
-	//glPopMatrix();
-	*/
-	//glRotatef((GLfloat)(((year)%360) ), 0.0, 1.0, 0.0); 
-	glTranslatef(1.5, 0.0, 0.0); //Move a little farther out than earth
-	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //rotate day
-	glColor4f(1.0, 0.0, 0.0, 1.0);
+	 
+	{glTranslatef(4.5, 0.0, 0.0); //Matrix 2(rotate// translate)
+	glColor4f(0.8, 0.0, 0.0, 1.0);
 	if (solidframe == true) {
 		glutSolidSphere(0.3, 10, 8);
 	}
 	else if (wireframe == true) {
 		glutWireSphere(0.3, 10, 8);
 	}
+	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
+	}
+	glPopMatrix();
 	glPopMatrix(); // Go back to the origin
 	
 	//Jupiter (light brown)
@@ -265,7 +249,7 @@ void idle() {
 	if (autoMotion) {
 		//day = (day + 10) % 360;
 		year = (year + 1) % 360;
-		day = (day + 10) % 360;
+		day = (day + 30) % 360;
 		Sleep(50);
 	}
 	glutPostRedisplay();
