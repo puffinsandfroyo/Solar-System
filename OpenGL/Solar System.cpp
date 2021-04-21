@@ -229,16 +229,29 @@ void display(void)
 		glTranslatef(5.75, 0.0, 0.0); //Matrix 2(rotate//translate)
 		glColor4f(0.5, 0.2, 0.1, 1.0);
 		if (solidframe == true) {
-			glutSolidSphere(0.1, 10, 8);
+			glutSolidSphere(0.8, 10, 8);
 		}
 		else if (wireframe == true) {
 			glutWireSphere(0.8, 10, 8);
 		}
-		glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
+		glRotatef((GLfloat)day, 1.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
 	}
-	
-	//glPushMatrix();//Now working on Matrix 2(rotate//)
+	glPopMatrix();
+
+	glPushMatrix();//Now working on Matrix 2(rotate//)
+
 	//Saturn (orange yellow)
+	{//glTranslatef(4.5, 0.0, 0.0);
+		glTranslatef(6.75, 0.0, 0.0); //Matrix 2(rotate//translate)
+		glColor4f(0.3, 0.2, 0.2, 1.0);
+		if (solidframe == true) {
+			glutSolidSphere(0.6, 10, 8);
+		}
+		else if (wireframe == true) {
+			glutWireSphere(0.8, 10, 8);
+		}
+		glRotatef((GLfloat)day, 1.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
+	}
 	//Uranus (cyan)
 	//Neptune (light blue)
 	//Pluto (small light brown)
