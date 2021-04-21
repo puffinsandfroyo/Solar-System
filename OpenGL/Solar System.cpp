@@ -144,6 +144,10 @@ void display(void)
 	glPushMatrix();
 	glRotatef((GLfloat)year, 0.0, 1.0, 0.0); //Rotate for the year
 
+	//Mercury (dark brown)
+	//Venus (golden)
+
+
 	glTranslatef(2.0, 0.0, 0.0); //Move away from sun 
 	glColor4f(0.0, 0.0, 1.0, 1.0);	//planet ~ blue
 	glutSolidSphere(0.3, 10, 8); // draw planet earth
@@ -161,6 +165,12 @@ void display(void)
 	glColor4f(1.0, 0.0, 0.0, 1.0);
 	glutSolidSphere(0.3, 10, 8);
 	glPopMatrix(); // Go back to the origin
+	
+	//Jupiter (light brown)
+	//Saturn (orange yellow)
+	//Uranus (cyan)
+	//Neptune (light blue)
+	//Pluto (small light brown)
 
 	setLighting();
 	glutSwapBuffers();
