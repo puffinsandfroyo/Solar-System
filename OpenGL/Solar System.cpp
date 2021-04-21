@@ -45,6 +45,8 @@ using namespace std;
 
 float xView = 0, yView = 0.0, zView = 5.0;
 
+float rho, theta, phi, x, y, z;	//polar coord transformation
+
 static int year = 0, day = 0, viewChoice = 0, lod = 0; 
 
 bool autoMotion = false;
