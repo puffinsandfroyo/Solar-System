@@ -370,17 +370,30 @@ void keyboard(unsigned char key, int x, int y)
 		//lod %= 3;
 		break;
 	case 'i':
-		if (viewChoice == 0)
-			yView++;
-		if (viewChoice == 1)
-			zView++;
+		if (viewChoice == 0) {
+			zView--;
+			if (zView < 2)
+				zView = 2;
+		}
+		if (viewChoice == 1) {
+			yView--; zView--;
+			if (yView < 2 && zView < 2) {
+				yView = 2; zView = 2;
+			}
+		}
 		break;
 	case 'o':
-		if (viewChoice == 0)
-			yView--;
-		if (viewChoice == 1)
-			zView--;
-		break;
+		if (viewChoice == 0) {
+			zView++;
+			if (zView > 12) zView = 12;
+		}
+		if (viewChoice == 1) {
+			yView++; zView++;
+			if (yView > 10 && zView > 10) {
+				yView = 10; zView = 10;
+			}
+		}
+		break; 
 	default:
 
 		break;
@@ -393,11 +406,13 @@ void keyboard(unsigned char key, int x, int y)
 void specialInput(int key, int x, int y) {
 	switch (key) {
 		//implement zoom as 'i' (in) and 'o' (out)?
-		case GLUT_KEY_UP:		if (viewChoice == 0) zView++; if (viewChoice == 1) yView++; printf("rotate y up"); break;
-		case GLUT_KEY_DOWN:		if (viewChoice == 0) zView--; if (viewChoice == 1) yView--; printf("rotate y down"); break;
+		case GLUT_KEY_UP:		if (viewChoice == 0) yView++; if (viewChoice == 1) zView++; printf("rotate y up"); break;
+		case GLUT_KEY_DOWN:		if (viewChoice == 0) yView--; if (viewChoice == 1) zView--; printf("rotate y down"); break;
 		case GLUT_KEY_LEFT:		xView--; printf("rotate x left"); break;
 		case GLUT_KEY_RIGHT:	xView++; printf("rotate x right"); break;
 	}
+	glutPostRedisplay();
+	reshape(width, height);
 }
 
 void processLightSubmenuEvents(int option) {
