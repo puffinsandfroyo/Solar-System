@@ -45,7 +45,7 @@ using namespace std;
 
 float xView = 0, yView = 0.0, zView = 5.0;
 
-float rho, theta, phi, x, y, z;	//polar coord transformation
+float rho, theta, phi, X, Y, Z;	//polar coord transformation
 
 static int year = 0, day = 0, viewChoice = 0, lod = 0; 
 
@@ -161,6 +161,7 @@ void display(void)
 		
 	//Mercury
 	{//glTranslatef(4.5, 0.0, 0.0);
+	glRotatef(150 + year*1.5, 0.0, 1.0, 0.0);
 	glTranslatef(1.5, 0.0, 0.0); //Matrix 2(rotate//translate)
 	glColor4f(0.5, 0.2, 0.1, 1.0);
 	if (solidframe == true) {
@@ -175,6 +176,7 @@ void display(void)
 	glPushMatrix();//Now working on Matrix 2(rotate//)
 
 	//Venus (golden)
+	glRotatef(100 + year*1.2, 0.0, 1.0, 0.0);
 	glTranslatef(2.5, 0.0, 0.0); //Matrix 2(rotate// translate)
 	glColor4f(0.3, 0.3, 0.1, 1.0);
 	if (solidframe == true) {
@@ -212,7 +214,8 @@ void display(void)
 	glPushMatrix(); //Matrix 2(rotate//) 
 	
 	 //--Make Mars--//
-	{glTranslatef(4.5, 0.0, 0.0); //Matrix 2(rotate// translate)
+	{glRotatef(150 + year*0.8, 0.0, 1.0, 0.0);
+	glTranslatef(4.5, 0.0, 0.0); //Matrix 2(rotate// translate)
 	glColor4f(0.8, 0.0, 0.0, 1.0);
 	if (solidframe == true) {
 		glutSolidSphere(0.3, 10, 8);
@@ -227,7 +230,7 @@ void display(void)
 	glPushMatrix();//Now working on Matrix 2(rotate//)
 
 	//--Make Jupiter--// (light brown)
-	{//glTranslatef(4.5, 0.0, 0.0);
+	{glRotatef(150 + year * 0.6, 0.0, 1.0, 0.0);
 		glTranslatef(5.75, 0.0, 0.0); //Matrix 2(rotate//translate)
 		glColor4f(0.5, 0.2, 0.1, 1.0);
 		if (solidframe == true) {
@@ -250,6 +253,7 @@ void display(void)
 			glutSolidSphere(0.6, 10, 8);
 			glPushMatrix();
 			glRotated(90, 1, 0, 0);
+			//could we alter alpha here to make the rings more transparent?
 			glutSolidTorus(0.06, 0.8, 4, 8);
 
 			glPopMatrix();
@@ -261,6 +265,7 @@ void display(void)
 		glRotatef((GLfloat)day, 1.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
 	}
 	//Uranus (cyan)
+
 	//Neptune (light blue)
 	//Pluto (small light brown)
 
@@ -333,6 +338,7 @@ void keyboard(unsigned char key, int x, int y)
 
 void specialInput(int key, int x, int y) {
 	switch (key) {
+		//spherical coord:
 		case GLUT_KEY_UP: printf("rotate y up"); break;		//implement zoom as scroll wheel?
 		case GLUT_KEY_DOWN: printf("rotate y down"); break;
 		case GLUT_KEY_LEFT: printf("rotate x left"); break;
