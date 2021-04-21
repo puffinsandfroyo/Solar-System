@@ -141,7 +141,7 @@ void display(void)
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);	//z-buffering
 	
 
-	glPushMatrix();
+	glPushMatrix(); //Identity
 	//--Make Sun--//
 	{
 		glColor4f(1.0, 0.84, 0.0, 1.0);	//sun ~ gold
@@ -154,12 +154,12 @@ void display(void)
 		//glPushMatrix();
 		glRotatef((GLfloat)year, 0.0, 1.0, 0.0); //Rotate for the year
 	}
-	glPushMatrix(); //Year Rotate
+	glPushMatrix(); //Year Rotate//
 	//Mercury (dark brown)
 		
 	//Mercury
 	{//glTranslatef(4.5, 0.0, 0.0);
-	glTranslatef(1.5, 0.0, 0.0); //Year rotate// + translate// + translate
+	glTranslatef(1.5, 0.0, 0.0); //Year rotate// + translate
 	glColor4f(0.5, 0.2, 0.1, 1.0);
 	if (solidframe == true) {
 		glutSolidSphere(0.1, 10, 8);
@@ -167,14 +167,14 @@ void display(void)
 	else if (wireframe == true) {
 		glutWireSphere(0.1, 10, 8);
 	}
-	glRotatef((GLfloat)day, 0.0, 1.0, 0.0);
+	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Year rotate// + translate + rotate
 	
 
 	}
-	glPopMatrix();
+	glPopMatrix(); //Year rotate//
 	
 	//Venus (golden)
-	/*glTranslatef(2.5, 0.0, 0.0); //Year rotate// + translate// + translate
+	glTranslatef(2.5, 0.0, 0.0); //Year rotate// + translate
 	glColor4f(0.3, 0.3, 0.1, 1.0);
 	if (solidframe == true) {
 		glutSolidSphere(0.1, 10, 8);
@@ -182,14 +182,13 @@ void display(void)
 	else if (wireframe == true) {
 		glutWireSphere(0.1, 10, 8);
 	}
-	glRotatef((GLfloat)day, 0.0, 1.0, 0.0);
+	glPushMatrix(); //Year rotate// + translate// //Without this one, it goes crazy but stacks the translate from 2.5. Why is it required?
+	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Year rotate// + translate// + day rotate
 
-
-
-glPopMatrix();*/
-
+	glPopMatrix();  //Year rotate// + translate//
+	
 	//--Make Earth--//
-	{glTranslatef(4.5, 0.0, 0.0); //Year Rotate// + Translate 
+	{glTranslatef(1.5, 0.0, 0.0); //Year Rotate// + Translate 
 	glColor4f(0.0, 0.0, 1.0, 1.0);
 	if (solidframe == true) {
 		glutSolidSphere(0.3, 10, 8);
@@ -229,7 +228,7 @@ glPopMatrix();*/
 	//glPopMatrix();
 	*/
 	//glRotatef((GLfloat)(((year)%360) ), 0.0, 1.0, 0.0); 
-	glTranslatef(5.5, 0.0, 0.0); //Move a little farther out than earth
+	glTranslatef(1.5, 0.0, 0.0); //Move a little farther out than earth
 	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //rotate day
 	glColor4f(1.0, 0.0, 0.0, 1.0);
 	if (solidframe == true) {
