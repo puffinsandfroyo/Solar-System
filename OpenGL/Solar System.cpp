@@ -45,7 +45,7 @@ using namespace std;
 
 float xView = 0, yView = 0.0, zView = 5.0;
 
-float rho, theta, phi, X, Y, Z;	//polar coord transformation
+float rho, theta, phi;	//polar coord transformation
 
 static int year = 0, day = 0, viewChoice = 0, lod = 0; 
 
@@ -88,7 +88,7 @@ void init(void)
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
 	glLoadIdentity();
-	setNightSky(); //This can't sit in init. 
+	//setNightSky(); //This can't sit in init. 
 	//We would need to make an array of stars or something and put it in display.
 }
 
@@ -157,9 +157,8 @@ void display(void)
 		glRotatef((GLfloat)year, 0.0, 1.0, 0.0); //Matrix 1 (sun) (rotate)
 	}
 	glPushMatrix(); //Working on Matrix 2 (planet) (rotate//)
+	
 	//Mercury (dark brown)
-		
-	//Mercury
 	{//glTranslatef(4.5, 0.0, 0.0);
 	glRotatef(150 + year*1.5, 0.0, 1.0, 0.0);
 	glTranslatef(1.5, 0.0, 0.0); //Matrix 2(rotate//translate)
@@ -176,7 +175,7 @@ void display(void)
 	glPushMatrix();//Now working on Matrix 2(rotate//)
 
 	//Venus (golden)
-	glRotatef(100 + year*1.2, 0.0, 1.0, 0.0);
+	glRotatef(year*1.2, 0.0, 1.0, 0.0);
 	glTranslatef(2.5, 0.0, 0.0); //Matrix 2(rotate// translate)
 	glColor4f(0.3, 0.3, 0.1, 1.0);
 	if (solidframe == true) {
@@ -200,7 +199,7 @@ void display(void)
 	glPushMatrix();					//Matrix 3 (moon) (rotate// translate)
 	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 3 (rotate// translate// rotate)	
 	
-	//Make Moon
+	//Make Moon - only if lod == greatest detail?
 	{glTranslatef(0.50, 0.0, 0.0); //Matrix 3 (rotate// translate// rotate, translate) 
 	glColor4f(0.961, 0.949, 0.816, 1.0); 
 	if (solidframe == true) {
@@ -214,7 +213,7 @@ void display(void)
 	glPushMatrix(); //Matrix 2(rotate//) 
 	
 	 //--Make Mars--//
-	{glRotatef(150 + year*0.8, 0.0, 1.0, 0.0);
+	{glRotatef(year*0.8, 0.0, 1.0, 0.0);
 	glTranslatef(4.5, 0.0, 0.0); //Matrix 2(rotate// translate)
 	glColor4f(0.8, 0.0, 0.0, 1.0);
 	if (solidframe == true) {
@@ -230,7 +229,7 @@ void display(void)
 	glPushMatrix();//Now working on Matrix 2(rotate//)
 
 	//--Make Jupiter--// (light brown)
-	{glRotatef(150 + year * 0.6, 0.0, 1.0, 0.0);
+	{glRotatef(year * 0.6, 0.0, 1.0, 0.0);
 		glTranslatef(5.75, 0.0, 0.0); //Matrix 2(rotate//translate)
 		glColor4f(0.5, 0.2, 0.1, 1.0);
 		if (solidframe == true) {
@@ -246,13 +245,14 @@ void display(void)
 	glPushMatrix();//Now working on Matrix 2(rotate//)
 
 	//Saturn (orange yellow)
-	{//glTranslatef(4.5, 0.0, 0.0);
+	{glRotatef(year*0.4, 0.0, 1.0, 0.0);
 		glTranslatef(8.75, 0.0, 0.0); //Matrix 2(rotate//translate)
 		glColor4f(0.3, 0.2, 0.2, 1.0);
 		if (solidframe == true) {
 			glutSolidSphere(0.6, 10, 8);
 			glPushMatrix();
 			glRotated(90, 1, 0, 0);
+			glColor4f(0.3, 0.2, 0.2, 1.0);
 			//could we alter alpha here to make the rings more transparent?
 			glutSolidTorus(0.06, 0.8, 4, 8);
 
@@ -264,10 +264,55 @@ void display(void)
 		}
 		glRotatef((GLfloat)day, 1.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
 	}
-	//Uranus (cyan)
+	glPopMatrix();
 
-	//Neptune (light blue)
+	glPushMatrix();//Now working on Matrix 2(rotate//)
+
+	//--Make Uranus--// (cyan)
+	{glRotatef(year * 0.4, 0.0, 1.0, 0.0);
+	glTranslatef(5.75, 0.0, 0.0); //Matrix 2(rotate//translate)
+	glColor4i(33, 160, 222, 1.0);
+	if (solidframe == true) {
+		glutSolidSphere(0.6, 10, 8);
+	}
+	else if (wireframe == true) {
+		glutWireSphere(0.6, 10, 8);
+	}
+	glRotatef((GLfloat)day, 1.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
+	}
+	glPopMatrix();
+
+	glPushMatrix();//Now working on Matrix 2(rotate//)
+
+	//--Make Neptune--// (light blue)
+	{glRotatef(year * 0.2, 0.0, 1.0, 0.0);
+	glTranslatef(7.25, 0.0, 0.0); //Matrix 2(rotate//translate)
+	glColor4i(80, 181, 228, 1.0);
+	if (solidframe == true) {
+		glutSolidSphere(0.7, 10, 8);
+	}
+	else if (wireframe == true) {
+		glutWireSphere(0.7, 10, 8);
+	}
+	glRotatef((GLfloat)day, 1.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
+	}
 	//Pluto (small light brown)
+	glPopMatrix();
+
+	glPushMatrix();//Now working on Matrix 2(rotate//)
+
+	//--Make Pluto--// (light brown)
+	{glRotatef(year * 0.1, 0.0, 1.0, 0.0);
+	glTranslatef(8.75, 0.0, 0.0); //Matrix 2(rotate//translate)
+	glColor4i(201, 63, 16, 1.0);
+	if (solidframe == true) {
+		glutSolidSphere(0.2, 10, 8);
+	}
+	else if (wireframe == true) {
+		glutWireSphere(0.2, 10, 8);
+	}
+	glRotatef((GLfloat)day, 1.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
+	}
 
 	glPopMatrix(); //Matrix 1(rotate)
 	glPopMatrix(); // Go back to the origin
@@ -321,11 +366,20 @@ void keyboard(unsigned char key, int x, int y)
 		autoMotion = !autoMotion;
 		break;
 	case '+':
-		yView++;
 		//lod++;
 		//lod %= 3;
 		break;
-		yView--;
+	case 'i':
+		if (viewChoice == 0)
+			yView++;
+		if (viewChoice == 1)
+			zView++;
+		break;
+	case 'o':
+		if (viewChoice == 0)
+			yView--;
+		if (viewChoice == 1)
+			zView--;
 		break;
 	default:
 
@@ -338,18 +392,12 @@ void keyboard(unsigned char key, int x, int y)
 
 void specialInput(int key, int x, int y) {
 	switch (key) {
-		//spherical coord:
-		case GLUT_KEY_UP: printf("rotate y up"); break;		//implement zoom as scroll wheel?
-		case GLUT_KEY_DOWN: printf("rotate y down"); break;
-		case GLUT_KEY_LEFT: printf("rotate x left"); break;
-		case GLUT_KEY_RIGHT: printf("rotate x right"); break;
+		//implement zoom as 'i' (in) and 'o' (out)?
+		case GLUT_KEY_UP:		if (viewChoice == 0) zView++; if (viewChoice == 1) yView++; printf("rotate y up"); break;
+		case GLUT_KEY_DOWN:		if (viewChoice == 0) zView--; if (viewChoice == 1) yView--; printf("rotate y down"); break;
+		case GLUT_KEY_LEFT:		xView--; printf("rotate x left"); break;
+		case GLUT_KEY_RIGHT:	xView++; printf("rotate x right"); break;
 	}
-}
-
-void mouse(int button, int state, int x, int y) {
-	if ((button == 4) || (button == 5))
-		//scroll conditions ~ zoom in and out ~ should use glutMouseWheelFunc instead?
-		;
 }
 
 void processLightSubmenuEvents(int option) {
@@ -400,7 +448,6 @@ int main(int argc, char** argv)
 
 
 	glutKeyboardFunc(keyboard);
-	glutMouseFunc(mouse);
 	glutSpecialFunc(specialInput);
 	glutIdleFunc(idle);
 
