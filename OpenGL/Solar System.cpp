@@ -242,13 +242,19 @@ void display(void)
 
 	//Saturn (orange yellow)
 	{//glTranslatef(4.5, 0.0, 0.0);
-		glTranslatef(6.75, 0.0, 0.0); //Matrix 2(rotate//translate)
+		glTranslatef(8.75, 0.0, 0.0); //Matrix 2(rotate//translate)
 		glColor4f(0.3, 0.2, 0.2, 1.0);
 		if (solidframe == true) {
 			glutSolidSphere(0.6, 10, 8);
+			glPushMatrix();
+			glRotated(90, 1, 0, 0);
+			glutSolidTorus(0.06, 0.8, 4, 8);
+
+			glPopMatrix();
 		}
 		else if (wireframe == true) {
 			glutWireSphere(0.8, 10, 8);
+		
 		}
 		glRotatef((GLfloat)day, 1.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
 	}
