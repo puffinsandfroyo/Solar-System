@@ -83,7 +83,7 @@ void init(void)
 	glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
-
+	glLoadIdentity();
 	setNightSky();
 }
 
@@ -136,19 +136,18 @@ void setLighting(void) {
 void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);	//z-buffering
-	
 	glPushMatrix();
 
 	glColor4f(1.0, 0.84, 0.0, 1.0);	//sun ~ gold
 	glutSolidSphere(1.0, 20, 16); // draw sun 
-	glPushMatrix();
+	//glPushMatrix();
 	glRotatef((GLfloat)year, 0.0, 1.0, 0.0); //Rotate for the year
-
+	glPushMatrix();
 	//Mercury (dark brown)
 	//Venus (golden)
 
 
-	glTranslatef(2.0, 0.0, 0.0); //Move away from sun 
+	glTranslatef(4.5, 0.0, 0.0); //Move away from sun 
 	glColor4f(0.0, 0.0, 1.0, 1.0);	//planet ~ blue
 	glutSolidSphere(0.3, 10, 8); // draw planet earth
 	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Rotate planet around y axis 	
@@ -159,8 +158,14 @@ void display(void)
 	glutSolidSphere(0.1, 10, 8); //draw moon
 	glPopMatrix(); //Move back to the sun origin 
 
-	glRotatef((GLfloat)(((year - 50)%360) ), 0.0, 1.0, 0.0); 
-	glTranslatef(3.0, 0.0, 0.0); //Move a little farther out than earth
+	glTranslatef(1.5, 0.0, 0.0);
+	glRotatef((GLfloat)day, 0.0, 1.0, 0.0);
+	glColor4f(0.5, 0.2, 0.1, 1.0);
+	glutSolidSphere(0.1, 10, 8);
+	//glPopMatrix();
+
+	//glRotatef((GLfloat)(((year)%360) ), 0.0, 1.0, 0.0); 
+	glTranslatef(5.5, 0.0, 0.0); //Move a little farther out than earth
 	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //rotate day
 	glColor4f(1.0, 0.0, 0.0, 1.0);
 	glutSolidSphere(0.3, 10, 8);
@@ -191,7 +196,7 @@ void reshape(int w, int h)
 void idle() {
 	if (autoMotion) {
 		//day = (day + 10) % 360;
-		year = (year + 5) % 360;
+		year = (year + 1) % 360;
 		day = (day + 10) % 360;
 		Sleep(50);
 	}
@@ -222,8 +227,9 @@ void keyboard(unsigned char key, int x, int y)
 		autoMotion = !autoMotion;
 		break;
 	case '+':
-		lod++;
-		lod %= 3;
+		zView++;
+		//lod++;
+		//lod %= 3;
 		break;
 	default:
 		break;
