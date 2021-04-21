@@ -142,50 +142,57 @@ void display(void)
 	
 
 	glPushMatrix();
-
-	glColor4f(1.0, 0.84, 0.0, 1.0);	//sun ~ gold
-	if (solidframe == true) {
-		glutSolidSphere(1.0, 20, 16); // draw sun 
+	//--Make Sun--//
+	{
+		glColor4f(1.0, 0.84, 0.0, 1.0);	//sun ~ gold
+		if (solidframe == true) {
+			glutSolidSphere(1.0, 20, 16); // draw sun 
+		}
+		else if (wireframe == true) {
+			glutWireSphere(1.0, 20, 18);
+		}
+		//glPushMatrix();
+		glRotatef((GLfloat)year, 0.0, 1.0, 0.0); //Rotate for the year
 	}
-	else if (wireframe == true) {
-		glutWireSphere(1.0, 20, 18);
-	}
-								  //glPushMatrix();
-	glRotatef((GLfloat)year, 0.0, 1.0, 0.0); //Rotate for the year
 	glPushMatrix();
 	//Mercury (dark brown)
 	//Venus (golden)
 
-
-	glTranslatef(4.5, 0.0, 0.0); //Move away from sun 
+	//--Make Earth--//
+	{glTranslatef(4.5, 0.0, 0.0); //Move away from sun 
 	glColor4f(0.0, 0.0, 1.0, 1.0);	//planet ~ blue
 	if (solidframe == true) {
 		glutSolidSphere(0.3, 10, 8); // draw planet earth
 	}
-	else if(wireframe == true) {
+	else if (wireframe == true) {
 		glutWireSphere(0.3, 10, 8);
 	}
 	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Rotate planet around y axis 	
-	
-
-	glTranslatef(0.50, 0.0, 0.0); //Move away from earth 
+	glPushMatrix(); //New Addition
+	//Make Moon
+	{glTranslatef(0.50, 0.0, 0.0); //Move away from earth 
 	glColor4f(0.961, 0.949, 0.816, 1.0); //moon ~ white
 	if (solidframe == true) {
 		glutSolidSphere(0.1, 10, 8);
 	}
 	else if (wireframe == true) {
 		glutWireSphere(0.1, 10, 8);//draw moon
-	}
+	}}}
 	glPopMatrix(); //Move back to the sun origin 
+	
 
-	glTranslatef(1.5, 0.0, 0.0);
-	glRotatef((GLfloat)day, 0.0, 1.0, 0.0);
+	//Mercury
+	{glTranslatef(1.5, 0.0, 0.0);
 	glColor4f(0.5, 0.2, 0.1, 1.0);
 	if (solidframe == true) {
 		glutSolidSphere(0.1, 10, 8);
 	}
 	else if (wireframe == true) {
 		glutWireSphere(0.1, 10, 8);
+	}
+	glRotatef((GLfloat)day, 0.0, 1.0, 0.0);
+	
+
 	}
 	//glPopMatrix();
 
