@@ -86,7 +86,8 @@ void init(void)
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
 	glLoadIdentity();
-	setNightSky();
+	setNightSky(); //This can't sit in init. 
+	//We would need to make an array of stars or something and put it in display.
 }
 
 void setViewChoice()
