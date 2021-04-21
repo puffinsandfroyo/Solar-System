@@ -156,7 +156,7 @@ void display(void)
 	}
 	glPushMatrix(); //Year Rotate
 	//Mercury (dark brown)
-		/*
+		
 	//Mercury
 	{//glTranslatef(4.5, 0.0, 0.0);
 	glTranslatef(1.5, 0.0, 0.0); //Year rotate// + translate// + translate
@@ -171,9 +171,22 @@ void display(void)
 	
 
 	}
-	//glPopMatrix();
-	*/
+	glPopMatrix();
+	
 	//Venus (golden)
+	/*glTranslatef(2.5, 0.0, 0.0); //Year rotate// + translate// + translate
+	glColor4f(0.3, 0.3, 0.1, 1.0);
+	if (solidframe == true) {
+		glutSolidSphere(0.1, 10, 8);
+	}
+	else if (wireframe == true) {
+		glutWireSphere(0.1, 10, 8);
+	}
+	glRotatef((GLfloat)day, 0.0, 1.0, 0.0);
+
+
+
+glPopMatrix();*/
 
 	//--Make Earth--//
 	{glTranslatef(4.5, 0.0, 0.0); //Year Rotate// + Translate 
