@@ -154,35 +154,12 @@ void display(void)
 		//glPushMatrix();
 		glRotatef((GLfloat)year, 0.0, 1.0, 0.0); //Rotate for the year
 	}
-	glPushMatrix();
+	glPushMatrix(); //Year Rotate
 	//Mercury (dark brown)
-	//Venus (golden)
-
-	//--Make Earth--//
-	{glTranslatef(4.5, 0.0, 0.0); //Move away from sun 
-	glColor4f(0.0, 0.0, 1.0, 1.0);	//planet ~ blue
-	if (solidframe == true) {
-		glutSolidSphere(0.3, 10, 8); // draw planet earth
-	}
-	else if (wireframe == true) {
-		glutWireSphere(0.3, 10, 8);
-	}
-	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Rotate planet around y axis 	
-	glPushMatrix(); //New Addition
-	//Make Moon
-	{glTranslatef(0.50, 0.0, 0.0); //Move away from earth 
-	glColor4f(0.961, 0.949, 0.816, 1.0); //moon ~ white
-	if (solidframe == true) {
-		glutSolidSphere(0.1, 10, 8);
-	}
-	else if (wireframe == true) {
-		glutWireSphere(0.1, 10, 8);//draw moon
-	}}}
-	glPopMatrix(); //Move back to the sun origin 
-	
-
+		/*
 	//Mercury
-	{glTranslatef(1.5, 0.0, 0.0);
+	{//glTranslatef(4.5, 0.0, 0.0);
+	glTranslatef(1.5, 0.0, 0.0); //Year rotate// + translate// + translate
 	glColor4f(0.5, 0.2, 0.1, 1.0);
 	if (solidframe == true) {
 		glutSolidSphere(0.1, 10, 8);
@@ -195,7 +172,49 @@ void display(void)
 
 	}
 	//glPopMatrix();
+	*/
+	//Venus (golden)
 
+	//--Make Earth--//
+	{glTranslatef(4.5, 0.0, 0.0); //Year Rotate// + Translate 
+	glColor4f(0.0, 0.0, 1.0, 1.0);
+	if (solidframe == true) {
+		glutSolidSphere(0.3, 10, 8);
+	}
+	else if (wireframe == true) {
+		glutWireSphere(0.3, 10, 8);
+	}
+	glPushMatrix();					 //New level
+	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Year Rotate// + translate// + rotate	
+	
+	//Make Moon
+	{glTranslatef(0.50, 0.0, 0.0); //Year Rotate + translate// + rotate + translate 
+	glColor4f(0.961, 0.949, 0.816, 1.0); 
+	if (solidframe == true) {
+		glutSolidSphere(0.1, 10, 8);
+	}
+	else if (wireframe == true) {
+		glutWireSphere(0.1, 10, 8);//draw moon
+	}}}
+	glPopMatrix(); //Year Rotate + translate
+	
+	/*
+	//Mercury
+	{//glTranslatef(4.5, 0.0, 0.0);
+	glTranslatef(1.5, 0.0, 0.0); //Year rotate// + translate// + translate
+	glColor4f(0.5, 0.2, 0.1, 1.0);
+	if (solidframe == true) {
+		glutSolidSphere(0.1, 10, 8);
+	}
+	else if (wireframe == true) {
+		glutWireSphere(0.1, 10, 8);
+	}
+	glRotatef((GLfloat)day, 0.0, 1.0, 0.0);
+	
+
+	}
+	//glPopMatrix();
+	*/
 	//glRotatef((GLfloat)(((year)%360) ), 0.0, 1.0, 0.0); 
 	glTranslatef(5.5, 0.0, 0.0); //Move a little farther out than earth
 	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //rotate day
@@ -264,11 +283,14 @@ void keyboard(unsigned char key, int x, int y)
 		autoMotion = !autoMotion;
 		break;
 	case '+':
-		zView++;
+		yView++;
 		//lod++;
 		//lod %= 3;
 		break;
+		yView--;
+		break;
 	default:
+
 		break;
 	}
 
