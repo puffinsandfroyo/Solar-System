@@ -44,13 +44,12 @@ http://ogldev.atspace.co.uk/www/tutorial16/tutorial16.html
 using namespace std;
 
 float xView = 0, yView = 5.0, zView = 12.0;
-
-float rho, theta, phi;	//polar coord transformation
+//float rho, theta, phi;	//polar coord transformation
 
 static int year = 0, day = 0, viewChoice = 0, lod = 0; 
 
 bool autoMotion = false;
-bool globalAmbientLightOn = true, positionalLight1On = false, positionalLight2On = false;
+bool globalAmbientLightOn = true, positionalLight1On = true, positionalLight2On = false;
 bool wireframe = false, solidframe = true, flatshading = false, smoothshading = true;
 
 
@@ -96,8 +95,18 @@ void setViewChoice()
 {
 	switch (viewChoice)
 	{
-	case 0: xView = 0, yView = 5.0, zView = 12.0; break;
-	case 1: xView = 0.0; yView = 5.0; zView = 5.0; break;
+	case 0: xView = 0, yView = 5.0, zView = 12.0; 
+		lod = 0; //bare bones solarsystem
+		break;
+
+	case 1: xView = 0.0; yView = 5.0; zView = 5.0;
+		lod = 1; //Add orbital lines
+		break;
+
+	case 2: xView = 0.0; yView = 5.0; zView = 5.0; 
+		lod = 2; //Add moons and day cycles
+		break;
+
 	}
 	//reshape(500, 500);
 	//glutPostRedisplay();
@@ -122,15 +131,27 @@ void setLighting(void) {
 	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
 
 	if (positionalLight1On == true){
-	GLfloat light_position[] = { 8, 8, 8, DIRECTIONAL };
-	GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 1.0 };
-	GLfloat light_diffuse[] = { lightDiffuse, lightDiffuse, lightDiffuse, 1.0 };
-	GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+		GLfloat light_position[] = { 8, 8, 8, POSITIONAL };
+		GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 1.0 };
+		GLfloat light_diffuse[] = { lightDiffuse, lightDiffuse, lightDiffuse, 1.0 };
+		GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
 
-	//glLightfv(GL_LIGHT1, GL_POSITION, light_position);
-	//glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient);
-	//glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse);
-	//glLightfv(GL_LIGHT1, GL_SPECULAR, light_specular);
+		//glLightfv(GL_LIGHT1, GL_POSITION, light_position);
+		//glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient);
+		//glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse);
+		//glLightfv(GL_LIGHT1, GL_SPECULAR, light_specular);
+	}
+
+	if (positionalLight2On == true) {
+		GLfloat light_position[] = { 0, 0, 10, POSITIONAL };
+		GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 1.0 };
+		GLfloat light_diffuse[] = { lightDiffuse, lightDiffuse, lightDiffuse, 1.0 };
+		GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+	
+		//glLightfv(GL_LIGHT1, GL_POSITION, light_position);
+		//glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient);
+		//glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse);
+		//glLightfv(GL_LIGHT1, GL_SPECULAR, light_specular);
 	}
 
 	glEnable(GL_LIGHT0);
@@ -159,81 +180,98 @@ void display(void)
 	glPushMatrix(); //Working on Matrix 2 (planet) (rotate//)
 	
 	//Mercury (dark brown)
-	{//glTranslatef(4.5, 0.0, 0.0);
-	glRotatef(year*1.5, 0.0, 1.0, 0.0);
-	glTranslatef(1.5, 0.0, 0.0); //Matrix 2(rotate//translate)
-	glColor4f(0.5, 0.2, 0.1, 1.0);
-	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
-	if (solidframe == true) {
-		glutSolidSphere(0.1, 10, 8);
-	}
-	else if (wireframe == true) {
-		glutWireSphere(0.1, 10, 8);
-	}
-	
+	{
+		//glTranslatef(4.5, 0.0, 0.0);
+		glRotatef(year * 1.5, 0.0, 1.0, 0.0);
+		glTranslatef(1.5, 0.0, 0.0); //Matrix 2(rotate//translate)
+		glColor4f(0.5, 0.2, 0.1, 1.0);
+		if (lod = 2) {
+		glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
+		}
+		if (solidframe == true) {
+			glutSolidSphere(0.1, 10, 8);
+		}
+		else if (wireframe == true) {
+			glutWireSphere(0.1, 10, 8);
+		}
+
 	}
 	glPopMatrix(); //Matrix 1(rotate)
 	glPushMatrix();//Now working on Matrix 2(rotate//)
 
 	//Venus (golden)
-	glRotatef(year*1.2, 0.0, 1.0, 0.0);
-	glTranslatef(2.0, 0.0, 0.0); //Matrix 2(rotate// translate)
-	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
-	glColor4f(0.3, 0.3, 0.1, 1.0);
-	if (solidframe == true) {
-		glutSolidSphere(0.1, 10, 8);
+	{
+		glRotatef(year * 1.2, 0.0, 1.0, 0.0);
+		glTranslatef(2.0, 0.0, 0.0); //Matrix 2(rotate// translate)
+		if (lod = 2) {
+			glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
+		}
+		glColor4f(0.3, 0.3, 0.1, 1.0);
+		if (solidframe == true) {
+			glutSolidSphere(0.1, 10, 8);
+		}
+		else if (wireframe == true) {
+			glutWireSphere(0.1, 10, 8);
+		}
 	}
-	else if (wireframe == true) {
-		glutWireSphere(0.1, 10, 8);
-	}
-
 	glPopMatrix();  //Matrix 1(rotate)
 	glPushMatrix(); //Now working on Matrix 2(rotate//)
+
 	//--Make Earth and moon--//
-	{glTranslatef(2.7, 0.0, 0.0); //Matrix 2 (rotate// translate)
-	glColor4f(0.0, 0.0, 0.8, 1.0);
-	glPushMatrix(); //Matrix 3 (rotate// translate//)
-	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 3(rotate// translate// rotate )
-	if (solidframe == true) {
-		glutSolidSphere(0.3, 10, 8);
+	{
+		glTranslatef(2.7, 0.0, 0.0); //Matrix 2 (rotate// translate)
+		glColor4f(0.0, 0.0, 0.8, 1.0);
+		glPushMatrix(); //Matrix 3 (rotate// translate//)
+		glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 3(rotate// translate// rotate )
+		if (solidframe == true) {
+			glutSolidSphere(0.3, 10, 8);
+		}
+		else if (wireframe == true) {
+			glutWireSphere(0.3, 10, 8);
+		}
+		glPopMatrix();					//Matrix 2 (moon) (rotate// translate)
+
+		if (lod == 2) {
+			glRotatef((GLfloat)day / 27, 0.0, 1.0, 0.0); //Matrix 3 (rotate// translate// rotate)	
+
+
+			//Make Moon - only if lod == greatest detail?
+			{glTranslatef(0.50, 0.0, 0.0); //Matrix 3 (rotate// translate// rotate, translate) 
+			glColor4f(0.961, 0.949, 0.816, 1.0);
+			if (solidframe == true) {
+				glutSolidSphere(0.1, 10, 8);
+			}
+			else if (wireframe == true) {
+				glutWireSphere(0.1, 10, 8);//draw moon
+			}
+			}
+		}
 	}
-	else if (wireframe == true) {
-		glutWireSphere(0.3, 10, 8);
-	}
-	glPopMatrix();					//Matrix 2 (moon) (rotate// translate)
-	glRotatef((GLfloat)day/27, 0.0, 1.0, 0.0); //Matrix 3 (rotate// translate// rotate)	
-	
-	//Make Moon - only if lod == greatest detail?
-	{glTranslatef(0.50, 0.0, 0.0); //Matrix 3 (rotate// translate// rotate, translate) 
-	glColor4f(0.961, 0.949, 0.816, 1.0); 
-	if (solidframe == true) {
-		glutSolidSphere(0.1, 10, 8);
-	}
-	else if (wireframe == true) {
-		glutWireSphere(0.1, 10, 8);//draw moon
-	}}}
 	glPopMatrix(); //Matrix 2(rotate// translate//)
 	glPopMatrix(); //Matrix 1 (rotate)
 	glPushMatrix(); //Matrix 2(rotate//) 
 	
 	 //--Make Mars--//
-	{glRotatef(year*0.8, 0.0, 1.0, 0.0);
-	glTranslatef(3.9, 0.0, 0.0); //Matrix 2(rotate// translate)
-	glColor4f(0.8, 0.0, 0.0, 1.0);
-	if (solidframe == true) {
-		glutSolidSphere(0.3, 10, 8);
+	{
+		glRotatef(year * 0.8, 0.0, 1.0, 0.0);
+		glTranslatef(3.9, 0.0, 0.0); //Matrix 2(rotate// translate)
+		glColor4f(0.8, 0.0, 0.0, 1.0);
+		if (solidframe == true) {
+			glutSolidSphere(0.3, 10, 8);
+		}
+		else if (wireframe == true) {
+			glutWireSphere(0.3, 10, 8);
+		}
+		glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
 	}
-	else if (wireframe == true) {
-		glutWireSphere(0.3, 10, 8);
-	}
-	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
-	}
+
 	glPopMatrix();
 	
 	glPushMatrix();//Now working on Matrix 2(rotate//)
 
 	//--Make Jupiter--// (light brown)
-	{glRotatef(year * 0.6, 0.0, 1.0, 0.0);
+	{
+	glRotatef(year * 0.6, 0.0, 1.0, 0.0);
 		glTranslatef(5.5, 0.0, 0.0); //Matrix 2(rotate//translate)
 		glColor4f(0.5, 0.2, 0.1, 1.0);
 		if (solidframe == true) {
@@ -258,7 +296,7 @@ void display(void)
 			glRotated(90, 1, 0, 0);
 			glColor4f(0.3, 0.2, 0.2, 1.0);
 			//could we alter alpha here to make the rings more transparent?
-			glutSolidTorus(0.06, 0.8, 4, 8);
+			glutSolidTorus(0.06, 0.8, 4, 12);
 
 			glPopMatrix();
 		}
@@ -273,32 +311,34 @@ void display(void)
 	glPushMatrix();//Now working on Matrix 2(rotate//)
 
 	//--Make Uranus--// (cyan)
-	{glRotatef(year * 0.2, 0.0, 1.0, 0.0);
-	glTranslatef(9.15, 0.0, 0.0); //Matrix 2(rotate//translate)
-	glColor4f(0.02, 0.59, 0.62, 1.0);
-	if (solidframe == true) {
-		glutSolidSphere(0.6, 10, 8);
-	}
-	else if (wireframe == true) {
-		glutWireSphere(0.6, 10, 8);
-	}
-	glRotatef(-(GLfloat)day, 1.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
+	{
+		glRotatef(year * 0.2, 0.0, 1.0, 0.0);
+		glTranslatef(9.15, 0.0, 0.0); //Matrix 2(rotate//translate)
+		glColor4f(0.02, 0.59, 0.62, 1.0);
+		if (solidframe == true) {
+			glutSolidSphere(0.6, 10, 8);
+		}
+		else if (wireframe == true) {
+			glutWireSphere(0.6, 10, 8);
+		}
+		glRotatef(-(GLfloat)day, 1.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
 	}
 	glPopMatrix();
 
 	glPushMatrix();//Now working on Matrix 2(rotate//)
 
 	//--Make Neptune--// (light blue)
-	{glRotatef(year * 0.1, 0.0, 1.0, 0.0);
-	glTranslatef(10.65, 0.0, 0.0); //Matrix 2(rotate//translate)
-	glColor4f(0.31, 0.7, 0.89, 1.0);
-	if (solidframe == true) {
-		glutSolidSphere(0.7, 10, 8);
-	}
-	else if (wireframe == true) {
-		glutWireSphere(0.7, 10, 8);
-	}
-	glRotatef((GLfloat)day, 1.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
+	{
+		glRotatef(year * 0.1, 0.0, 1.0, 0.0);
+		glTranslatef(10.65, 0.0, 0.0); //Matrix 2(rotate//translate)
+		glColor4f(0.31, 0.7, 0.89, 1.0);
+		if (solidframe == true) {
+			glutSolidSphere(0.7, 10, 8);
+		}
+		else if (wireframe == true) {
+			glutWireSphere(0.7, 10, 8);
+		}
+		glRotatef((GLfloat)day, 1.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
 	}
 	//Pluto (small light brown)
 	glPopMatrix();
@@ -306,16 +346,17 @@ void display(void)
 	glPushMatrix();//Now working on Matrix 2(rotate//)
 
 	//--Make Pluto--// (light brown)
-	{glRotatef(year * 0.05, 0.0, 1.0, 0.0);
-	glTranslatef(12.0, 0.0, 0.0); //Matrix 2(rotate//translate)
-	glColor4f(0.5, 0.2, 0.1, 1.0);
-	if (solidframe == true) {
-		glutSolidSphere(0.2, 10, 8);
-	}
-	else if (wireframe == true) {
-		glutWireSphere(0.2, 10, 8);
-	}
-	glRotatef((GLfloat)day, 1.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
+	{
+		glRotatef(year * 0.05, 0.0, 1.0, 0.0);
+		glTranslatef(12.0, 0.0, 0.0); //Matrix 2(rotate//translate)
+		glColor4f(0.5, 0.2, 0.1, 1.0);
+		if (solidframe == true) {
+			glutSolidSphere(0.2, 10, 8);
+		}
+		else if (wireframe == true) {
+			glutWireSphere(0.2, 10, 8);
+		}
+		glRotatef((GLfloat)day, 1.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
 	}
 
 	glPopMatrix(); //Matrix 1(rotate)
@@ -363,15 +404,15 @@ void keyboard(unsigned char key, int x, int y)
 		break;
 	case 'v':
 		viewChoice++;
-		viewChoice %= 2;
+		viewChoice %= 3;
 		setViewChoice();
 		break;
 	case 'a':
 		autoMotion = !autoMotion;
 		break;
 	case '+':
-		//lod++;
-		//lod %= 3;
+		lod++;
+		lod %= 3;
 		break;
 	case 'i':
 		if (viewChoice == 0) {
@@ -385,6 +426,9 @@ void keyboard(unsigned char key, int x, int y)
 				yView = 2; zView = 2;
 			}
 		}
+		if (zView > 8) lod = 0;
+		if (zView > 4 && zView < 7) lod = 1;
+		if (zView < 5) lod = 2;
 		break;
 	case 'o':
 		if (viewChoice == 0) {
@@ -395,10 +439,22 @@ void keyboard(unsigned char key, int x, int y)
 			yView++; zView++;
 			if (yView > 10 && zView > 10) {
 				yView = 10; zView = 10;
-			}
-			
+			}	
 		}
-		break; 
+		if (zView > 8) lod = 0;
+		if (zView > 4 && zView < 7) lod = 1;
+		if (zView < 5) lod = 2;
+		break;
+	case '.':
+		xView = 0; yView = 5.0; zView = 12.0;
+		year = 0; day = 0; viewChoice = 0; lod = 0;
+		autoMotion = false;
+		globalAmbientLightOn = true; positionalLight1On = true; positionalLight2On = false;
+		wireframe = false; solidframe = true; flatshading = false; smoothshading = true;
+		globalAmbient = 0.2; lightX = 0.0; lightY = 0.0; lightZ = 0.0;
+		lightDiffuse = 0.9;
+		width = 1000; height = 500;
+		break;
 	default:
 
 		break;
@@ -411,10 +467,10 @@ void keyboard(unsigned char key, int x, int y)
 void specialInput(int key, int x, int y) {
 	switch (key) {
 		//implement zoom as 'i' (in) and 'o' (out)?
-		case GLUT_KEY_UP:		if (viewChoice == 0) yView++; if (viewChoice == 1) zView++; printf("rotate y up"); break;
-		case GLUT_KEY_DOWN:		if (viewChoice == 0) yView--; if (viewChoice == 1) zView--; printf("rotate y down"); break;
-		case GLUT_KEY_LEFT:		xView--; printf("rotate x left"); break;
-		case GLUT_KEY_RIGHT:	xView++; printf("rotate x right"); break;
+		case GLUT_KEY_UP:		if (viewChoice == 0) yView++; if (viewChoice == 1) zView++; /*printf("rotate y up");*/ break;
+		case GLUT_KEY_DOWN:		if (viewChoice == 0) yView--; if (viewChoice == 1) zView--; /*printf("rotate y down");*/ break;
+		case GLUT_KEY_LEFT:		xView--; /*printf("rotate x left");*/ break;
+		case GLUT_KEY_RIGHT:	xView++; /*printf("rotate x right");*/ break;
 	}
 	glutPostRedisplay();
 	reshape(width, height);
@@ -422,23 +478,24 @@ void specialInput(int key, int x, int y) {
 
 void processLightSubmenuEvents(int option) {
 	switch (option) {
-	case GlobalAmbientLight:	if (globalAmbientLightOn)	globalAmbient = 0.2;		
+	case GlobalAmbientLight:	if (globalAmbientLightOn) globalAmbient = 0.2;
 								else globalAmbient = 0.0;
 								globalAmbientLightOn = !globalAmbientLightOn;
 								break;
 	case PositionalLight1:		positionalLight1On = !positionalLight1On;
-								break;	
-								//star 1?
+								break;
+		//star 1
 	case PositionalLight2:		if (positionalLight2On);
 								else;
 								positionalLight2On = !positionalLight2On;
 								break;
-								//Star 2?
-	//case DirectionalLight:
+		//star 2
+//case DirectionalLight:
 	}
 }
-	void processDisplaySubmenuEvents(int option){
-		switch(option){
+
+void processDisplaySubmenuEvents(int option){
+	switch(option){
 		case WireFrame:		wireframe = true;
 							solidframe = false;
 							break;
