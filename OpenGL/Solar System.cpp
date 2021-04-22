@@ -58,7 +58,7 @@ float globalAmbient = 0.2;
 float lightX = 0.0, lightY = 0.0, lightZ = 0.0;
 float lightDiffuse = 0.9;
 
-int width = 500, height = 500;
+int width = 1000, height = 500;
 
 void setNightSky(void)
 {
@@ -160,7 +160,7 @@ void display(void)
 	
 	//Mercury (dark brown)
 	{//glTranslatef(4.5, 0.0, 0.0);
-	glRotatef(150 + year*1.5, 0.0, 1.0, 0.0);
+	glRotatef(year*1.5, 0.0, 1.0, 0.0);
 	glTranslatef(1.5, 0.0, 0.0); //Matrix 2(rotate//translate)
 	glColor4f(0.5, 0.2, 0.1, 1.0);
 	if (solidframe == true) {
@@ -176,7 +176,8 @@ void display(void)
 
 	//Venus (golden)
 	glRotatef(year*1.2, 0.0, 1.0, 0.0);
-	glTranslatef(2.5, 0.0, 0.0); //Matrix 2(rotate// translate)
+	glTranslatef(2.0, 0.0, 0.0); //Matrix 2(rotate// translate)
+	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
 	glColor4f(0.3, 0.3, 0.1, 1.0);
 	if (solidframe == true) {
 		glutSolidSphere(0.1, 10, 8);
@@ -188,7 +189,7 @@ void display(void)
 	glPopMatrix();  //Matrix 1(rotate)
 	glPushMatrix(); //Now working on Matrix 2(rotate//)
 	//--Make Earth and moon--//
-	{glTranslatef(3.5, 0.0, 0.0); //Matrix 2 (rotate// translate)
+	{glTranslatef(2.7, 0.0, 0.0); //Matrix 2 (rotate// translate)
 	glColor4f(0.0, 0.0, 0.8, 1.0);
 	if (solidframe == true) {
 		glutSolidSphere(0.3, 10, 8);
@@ -214,7 +215,7 @@ void display(void)
 	
 	 //--Make Mars--//
 	{glRotatef(year*0.8, 0.0, 1.0, 0.0);
-	glTranslatef(4.5, 0.0, 0.0); //Matrix 2(rotate// translate)
+	glTranslatef(3.9, 0.0, 0.0); //Matrix 2(rotate// translate)
 	glColor4f(0.8, 0.0, 0.0, 1.0);
 	if (solidframe == true) {
 		glutSolidSphere(0.3, 10, 8);
@@ -230,7 +231,7 @@ void display(void)
 
 	//--Make Jupiter--// (light brown)
 	{glRotatef(year * 0.6, 0.0, 1.0, 0.0);
-		glTranslatef(5.75, 0.0, 0.0); //Matrix 2(rotate//translate)
+		glTranslatef(5.5, 0.0, 0.0); //Matrix 2(rotate//translate)
 		glColor4f(0.5, 0.2, 0.1, 1.0);
 		if (solidframe == true) {
 			glutSolidSphere(0.8, 10, 8);
@@ -246,7 +247,7 @@ void display(void)
 
 	//Saturn (orange yellow)
 	{glRotatef(year*0.4, 0.0, 1.0, 0.0);
-		glTranslatef(8.75, 0.0, 0.0); //Matrix 2(rotate//translate)
+		glTranslatef(7.75, 0.0, 0.0); //Matrix 2(rotate//translate)
 		glColor4f(0.3, 0.2, 0.2, 1.0);
 		if (solidframe == true) {
 			glutSolidSphere(0.6, 10, 8);
@@ -270,15 +271,15 @@ void display(void)
 
 	//--Make Uranus--// (cyan)
 	{glRotatef(year * 0.4, 0.0, 1.0, 0.0);
-	glTranslatef(5.75, 0.0, 0.0); //Matrix 2(rotate//translate)
-	glColor4i(33, 160, 222, 1.0);
+	glTranslatef(9.15, 0.0, 0.0); //Matrix 2(rotate//translate)
+	glColor4f(0.02, 0.59, 0.62, 1.0);
 	if (solidframe == true) {
 		glutSolidSphere(0.6, 10, 8);
 	}
 	else if (wireframe == true) {
 		glutWireSphere(0.6, 10, 8);
 	}
-	glRotatef((GLfloat)day, 1.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
+	glRotatef(-(GLfloat)day, 1.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
 	}
 	glPopMatrix();
 
@@ -286,8 +287,8 @@ void display(void)
 
 	//--Make Neptune--// (light blue)
 	{glRotatef(year * 0.2, 0.0, 1.0, 0.0);
-	glTranslatef(7.25, 0.0, 0.0); //Matrix 2(rotate//translate)
-	glColor4i(80, 181, 228, 1.0);
+	glTranslatef(10.65, 0.0, 0.0); //Matrix 2(rotate//translate)
+	glColor4f(0.31, 0.7, 0.89, 1.0);
 	if (solidframe == true) {
 		glutSolidSphere(0.7, 10, 8);
 	}
@@ -303,8 +304,8 @@ void display(void)
 
 	//--Make Pluto--// (light brown)
 	{glRotatef(year * 0.1, 0.0, 1.0, 0.0);
-	glTranslatef(8.75, 0.0, 0.0); //Matrix 2(rotate//translate)
-	glColor4i(201, 63, 16, 1.0);
+	glTranslatef(12.0, 0.0, 0.0); //Matrix 2(rotate//translate)
+	glColor4f(0.5, 0.2, 0.1, 1.0);
 	if (solidframe == true) {
 		glutSolidSphere(0.2, 10, 8);
 	}
@@ -335,7 +336,7 @@ void reshape(int w, int h)
 void idle() {
 	if (autoMotion) {
 		//day = (day + 10) % 360;
-		year = (year + 1) % 360;
+		year = (year + 1);// % 360;
 		day = (day + 30) % 360;
 		Sleep(50);
 	}
@@ -392,6 +393,7 @@ void keyboard(unsigned char key, int x, int y)
 			if (yView > 10 && zView > 10) {
 				yView = 10; zView = 10;
 			}
+			
 		}
 		break; 
 	default:
