@@ -43,7 +43,7 @@ http://ogldev.atspace.co.uk/www/tutorial16/tutorial16.html
 
 using namespace std;
 
-float xView = 0, yView = 0.0, zView = 5.0;
+float xView = 0, yView = 5.0, zView = 12.0;
 
 float rho, theta, phi;	//polar coord transformation
 
@@ -163,13 +163,14 @@ void display(void)
 	glRotatef(year*1.5, 0.0, 1.0, 0.0);
 	glTranslatef(1.5, 0.0, 0.0); //Matrix 2(rotate//translate)
 	glColor4f(0.5, 0.2, 0.1, 1.0);
+	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
 	if (solidframe == true) {
 		glutSolidSphere(0.1, 10, 8);
 	}
 	else if (wireframe == true) {
 		glutWireSphere(0.1, 10, 8);
 	}
-	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
+	
 	}
 	glPopMatrix(); //Matrix 1(rotate)
 	glPushMatrix();//Now working on Matrix 2(rotate//)
@@ -191,14 +192,16 @@ void display(void)
 	//--Make Earth and moon--//
 	{glTranslatef(2.7, 0.0, 0.0); //Matrix 2 (rotate// translate)
 	glColor4f(0.0, 0.0, 0.8, 1.0);
+	glPushMatrix(); //Matrix 3 (rotate// translate//)
+	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 3(rotate// translate// rotate )
 	if (solidframe == true) {
 		glutSolidSphere(0.3, 10, 8);
 	}
 	else if (wireframe == true) {
 		glutWireSphere(0.3, 10, 8);
 	}
-	glPushMatrix();					//Matrix 3 (moon) (rotate// translate)
-	glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 3 (rotate// translate// rotate)	
+	glPopMatrix();					//Matrix 2 (moon) (rotate// translate)
+	glRotatef((GLfloat)day/27, 0.0, 1.0, 0.0); //Matrix 3 (rotate// translate// rotate)	
 	
 	//Make Moon - only if lod == greatest detail?
 	{glTranslatef(0.50, 0.0, 0.0); //Matrix 3 (rotate// translate// rotate, translate) 
@@ -270,7 +273,7 @@ void display(void)
 	glPushMatrix();//Now working on Matrix 2(rotate//)
 
 	//--Make Uranus--// (cyan)
-	{glRotatef(year * 0.4, 0.0, 1.0, 0.0);
+	{glRotatef(year * 0.2, 0.0, 1.0, 0.0);
 	glTranslatef(9.15, 0.0, 0.0); //Matrix 2(rotate//translate)
 	glColor4f(0.02, 0.59, 0.62, 1.0);
 	if (solidframe == true) {
@@ -286,7 +289,7 @@ void display(void)
 	glPushMatrix();//Now working on Matrix 2(rotate//)
 
 	//--Make Neptune--// (light blue)
-	{glRotatef(year * 0.2, 0.0, 1.0, 0.0);
+	{glRotatef(year * 0.1, 0.0, 1.0, 0.0);
 	glTranslatef(10.65, 0.0, 0.0); //Matrix 2(rotate//translate)
 	glColor4f(0.31, 0.7, 0.89, 1.0);
 	if (solidframe == true) {
@@ -303,7 +306,7 @@ void display(void)
 	glPushMatrix();//Now working on Matrix 2(rotate//)
 
 	//--Make Pluto--// (light brown)
-	{glRotatef(year * 0.1, 0.0, 1.0, 0.0);
+	{glRotatef(year * 0.05, 0.0, 1.0, 0.0);
 	glTranslatef(12.0, 0.0, 0.0); //Matrix 2(rotate//translate)
 	glColor4f(0.5, 0.2, 0.1, 1.0);
 	if (solidframe == true) {
@@ -337,7 +340,7 @@ void idle() {
 	if (autoMotion) {
 		//day = (day + 10) % 360;
 		year = (year + 1);// % 360;
-		day = (day + 30) % 360;
+		day = (day + 30);// % 360;
 		Sleep(50);
 	}
 	glutPostRedisplay();
@@ -347,16 +350,16 @@ void keyboard(unsigned char key, int x, int y)
 {
 	switch (key) {
 	case 'd':
-		day = (day + 10) % 360;
+		day = (day + 10);// % 360;
 		break;
 	case 'D':
-		day = (day - 10) % 360;
+		day = (day - 10);// % 360;
 		break;
 	case 'y':
-		year = (year + 5) % 360;
+		year = (year + 5);// % 360;
 		break;
 	case 'Y':
-		year = (year - 5) % 360;
+		year = (year - 5);// % 360;
 		break;
 	case 'v':
 		viewChoice++;
