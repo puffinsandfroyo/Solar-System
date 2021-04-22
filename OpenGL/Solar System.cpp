@@ -96,7 +96,7 @@ void setViewChoice()
 {
 	switch (viewChoice)
 	{
-	case 0: xView = 0.0; yView = 0.0; zView = 5.0; break;
+	case 0: xView = 0, yView = 5.0, zView = 12.0; break;
 	case 1: xView = 0.0; yView = 5.0; zView = 5.0; break;
 	}
 	//reshape(500, 500);
