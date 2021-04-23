@@ -247,16 +247,16 @@ void display(void)
 
 		if (lod == 2) {
 			glRotatef((GLfloat)day / 27, 0.0, 1.0, 0.0); //Matrix 3 (rotate// translate// rotate)	
-
+			
 
 			//Make Moon - only if lod == greatest detail?
-			{glTranslatef(0.50, 0.0, 0.0); //Matrix 3 (rotate// translate// rotate, translate) 
+			{glTranslatef(1.0, 0.0, 0.0); //Matrix 3 (rotate// translate// rotate, translate) 
 			glColor4f(0.961, 0.949, 0.816, 1.0);
 			if (solidframe == true) {
-				glutSolidSphere(0.1, 10, 8);
+				glutSolidSphere(0.3, 10, 8);
 			}
 			else if (wireframe == true) {
-				glutWireSphere(0.1, 10, 8);//draw moon
+				glutWireSphere(0.3, 10, 8);//draw moon
 			}
 			}
 		}
@@ -299,6 +299,21 @@ void display(void)
 		}
 		else if (wireframe == true) {
 			glutWireSphere(0.8, 10, 8);
+		}
+				if (lod == 2) {
+			glRotatef((GLfloat)day / 27, 0.0, 1.0, 0.0); //Matrix 3 (rotate// translate// rotate)	
+
+
+			//Make Moon - only if lod == greatest detail?
+			{glTranslatef(0.50, 0.0, 0.0); //Matrix 3 (rotate// translate// rotate, translate) 
+			glColor4f(0.961, 0.949, 0.816, 1.0);
+			if (solidframe == true) {
+				glutSolidSphere(0.1, 10, 8);
+			}
+			else if (wireframe == true) {
+				glutWireSphere(0.1, 10, 8);//draw moon
+			}
+			}
 		}
 		
 	}
@@ -524,7 +539,7 @@ void processLightSubmenuEvents(int option) {
 			GlobalAmbientLightName = "Global Ambient Light *";
 		}
 		else {
-			globalAmbient = 0.0;
+			globalAmbient = 0.05;
 			GlobalAmbientLightName = "Global Ambient Light";
 		}
 
