@@ -95,8 +95,6 @@ void setViewChoice()
 		break;
 
 	}
-	//reshape(500, 500);
-	//glutPostRedisplay();
 }
 
 void setLighting(void) {
@@ -135,15 +133,15 @@ void setLighting(void) {
 	}
 
 	if (positionalLight2On == true) {
-		GLfloat light2_position[] = { 0, 10, 0, POSITIONAL };
+		GLfloat light2_position[] = { 0, 10, 5, POSITIONAL };
 		GLfloat light2_ambient[] = { 0.0, 0.0, 0.0, 1.0 };
 		GLfloat light2_diffuse[] = { lightDiffuse, lightDiffuse, lightDiffuse, 1.0 };
 		GLfloat light2_specular[] = { 1.0, 1.0, 1.0, 1.0 };
 	
-		glLightfv(GL_LIGHT1, GL_POSITION, light2_position);
-		glLightfv(GL_LIGHT1, GL_AMBIENT, light2_ambient);
-		glLightfv(GL_LIGHT1, GL_DIFFUSE, light2_diffuse);
-		glLightfv(GL_LIGHT1, GL_SPECULAR, light2_specular);
+		glLightfv(GL_LIGHT2, GL_POSITION, light2_position);
+		glLightfv(GL_LIGHT2, GL_AMBIENT, light2_ambient);
+		glLightfv(GL_LIGHT2, GL_DIFFUSE, light2_diffuse);
+		glLightfv(GL_LIGHT2, GL_SPECULAR, light2_specular);
 	}
 
 	glEnable(GL_LIGHT0);
@@ -531,7 +529,7 @@ void processLightSubmenuEvents(int option) {
 		else(PositionalLight1Name = "Positional Light 1");
 		break;
 		//star 1
-	case PositionalLight2:	positionalLight2On = !positionalLight2On;
+	case PositionalLight2:		positionalLight2On = !positionalLight2On;
 		if (positionalLight2On) {
 			PositionalLight2Name = "Positional Light 2 *";
 		}
