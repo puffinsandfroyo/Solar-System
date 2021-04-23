@@ -44,8 +44,6 @@ http://ogldev.atspace.co.uk/www/tutorial16/tutorial16.html
 using namespace std;
 
 float xView = 0, yView = 5.0, zView = 12.0;
-//float rho, theta, phi;	//polar coord transformation
-
 static int year = 0, day = 0, viewChoice = 0, lod = 0; 
 
 bool autoMotion = false;
@@ -62,23 +60,8 @@ char* GlobalAmbientLightName = "Global Ambient Light *", * PositionalLight1Name 
 
 int width = 1000, height = 500;
 
-void setNightSky(void)
-{
-	glClearColor(0.0, 0.0, 0.0, 0.0);
-	int numPoints = 3000;
-
-	glPointSize(5.0);
-	glColor4f(1.0, 1.0, 1.0, 1.0);
-	glBegin(GL_POINTS);
-	//for (int x = 0; x < numPoints; x++) {
-	//	glVertex3i(rand() % -10, rand() % height, rand() % width);
-	//}
-	glVertex3i(0, 5, 5);
-	glEnd();
-
-	glFlush();
-	//glutPostRedisplay();
-}
+const int numPoints = 3000;
+//int stars[numPoints];
 
 void init(void)
 {
@@ -90,6 +73,7 @@ void init(void)
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
 	glLoadIdentity();
+	
 	//setNightSky(); //This can't sit in init. 
 	//We would need to make an array of stars or something and put it in display.
 }
@@ -102,7 +86,7 @@ void setViewChoice()
 		lod = 0; //bare bones solarsystem
 		break;
 
-	case 1: xView = 0.0; yView = 5.0; zView = 5.0;
+	case 1: xView = 0.0; yView = 5.0; zView = 8.0;
 		lod = 1; //Add orbital lines
 		break;
 
@@ -151,26 +135,27 @@ void setLighting(void) {
 	}
 
 	if (positionalLight2On == true) {
-		GLfloat light_position[] = { 0, 0, 10, POSITIONAL };
-		GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 1.0 };
-		GLfloat light_diffuse[] = { lightDiffuse, lightDiffuse, lightDiffuse, 1.0 };
-		GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+		GLfloat light2_position[] = { 0, 10, 0, POSITIONAL };
+		GLfloat light2_ambient[] = { 0.0, 0.0, 0.0, 1.0 };
+		GLfloat light2_diffuse[] = { lightDiffuse, lightDiffuse, lightDiffuse, 1.0 };
+		GLfloat light2_specular[] = { 1.0, 1.0, 1.0, 1.0 };
 	
-		//glLightfv(GL_LIGHT1, GL_POSITION, light_position);
-		//glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient);
-		//glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse);
-		//glLightfv(GL_LIGHT1, GL_SPECULAR, light_specular);
+		glLightfv(GL_LIGHT1, GL_POSITION, light2_position);
+		glLightfv(GL_LIGHT1, GL_AMBIENT, light2_ambient);
+		glLightfv(GL_LIGHT1, GL_DIFFUSE, light2_diffuse);
+		glLightfv(GL_LIGHT1, GL_SPECULAR, light2_specular);
 	}
 
 	glEnable(GL_LIGHT0);
 	glEnable(GL_LIGHT1);
+	glEnable(GL_LIGHT2);
 }
 
 
 void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	//z-buffering
-	if (lod >= 1) {
+	if (lod >= 1) { //orbital paths
 		glPushMatrix();
 		glColor4f(1, 1, 1, 1);
 		glRotated(90, 1, 0, 0);
@@ -405,6 +390,14 @@ void display(void)
 	glPopMatrix(); // Go back to the origin
 	setLighting();
 	glutSwapBuffers();
+
+	/*glPointSize(10.0);	//attempt at stars
+	glColor4f(0.0, 1.0, 1.0, 1.0);
+	for (int x = 0; x < numPoints; x++) {
+		glBegin(GL_POINTS);
+		glVertex3i(rand() % 10, rand() % 12, rand() % 12);
+		glEnd();
+	}*/
 }
 
 void reshape(int w, int h)
@@ -468,8 +461,8 @@ void keyboard(unsigned char key, int x, int y)
 				yView = 2; zView = 2;
 			}
 		}
-		if (zView > 8) lod = 0;
-		if (zView > 4 && zView < 7) lod = 1;
+		if (zView > 9) lod = 0;
+		if (zView > 4 && zView < 8) lod = 1;
 		if (zView < 5) lod = 2;
 		break;
 	case 'o':
@@ -483,8 +476,8 @@ void keyboard(unsigned char key, int x, int y)
 				yView = 10; zView = 10;
 			}	
 		}
-		if (zView > 8) lod = 0;
-		if (zView > 4 && zView < 7) lod = 1;
+		if (zView > 9) lod = 0;
+		if (zView > 4 && zView < 8) lod = 1;
 		if (zView < 5) lod = 2;
 		break;
 	case '.':
