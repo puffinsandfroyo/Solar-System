@@ -133,7 +133,7 @@ void setLighting(void) {
 	}
 
 	if (positionalLight2On == true) {
-		GLfloat light2_position[] = { 0, 10, 5, POSITIONAL };
+		GLfloat light2_position[] = { 8, 12, 8, POSITIONAL };
 		GLfloat light2_ambient[] = { 0.0, 0.0, 0.0, 1.0 };
 		GLfloat light2_diffuse[] = { lightDiffuse, lightDiffuse, lightDiffuse, 1.0 };
 		GLfloat light2_specular[] = { 1.0, 1.0, 1.0, 1.0 };
@@ -533,7 +533,7 @@ void processLightSubmenuEvents(int option) {
 		if (positionalLight2On) {
 			PositionalLight2Name = "Positional Light 2 *";
 		}
-		else; {
+		else {
 			PositionalLight2Name = "Positional Light 2";
 		}
 
