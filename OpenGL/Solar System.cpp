@@ -140,7 +140,7 @@ void setLighting(void) {
 		//glVertex3d(8, 8, 8);
 		//glEnd();
 		GLfloat light1_position[] = { 8, 8, 8, POSITIONAL };
-		GLfloat light1_ambient[] = { 0.5, 0.5, 0.5, 1.0 };
+		GLfloat light1_ambient[] = { 0.8, 0.8, 0.8, 1.0 };
 		GLfloat light1_diffuse[] = { lightDiffuse, lightDiffuse, lightDiffuse, 1.0 };
 		GLfloat light1_specular[] = { 1.0, 1.0, 1.0, 1.0 };
 
@@ -170,8 +170,19 @@ void setLighting(void) {
 void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);	//z-buffering
-	
-
+	glPushMatrix();
+	glColor4f(1, 1, 1,1);
+	glRotated(90, 1, 0, 0);
+	glutSolidTorus(0.01, 1.5, 10, 100);
+	glutSolidTorus(0.01, 2, 10, 100);
+	glutSolidTorus(0.01, 2.7, 10, 100);
+	glutSolidTorus(0.01, 3.9, 10, 100);
+	glutSolidTorus(0.01, 5.5, 10, 100);
+	glutSolidTorus(0.01, 7.75, 10, 100);
+	glutSolidTorus(0.01, 9.15, 10, 100);
+	glutSolidTorus(0.01, 10.65, 10, 100);
+	glutSolidTorus(0.01, 12, 10, 100);
+	glPopMatrix();
 	glPushMatrix(); //Identity (Matrix 0) Now editing Matrix 1
 	//--Make Sun--//
 	{
@@ -202,6 +213,7 @@ void display(void)
 		else if (wireframe == true) {
 			glutWireSphere(0.1, 10, 8);
 		}
+
 
 	}
 	glPopMatrix(); //Matrix 1(rotate)
@@ -321,6 +333,7 @@ void display(void)
 		}
 		else if (wireframe == true) {
 			glutWireSphere(0.8, 10, 8);
+			glRotated(90, 1, 0, 0);
 			glutWireTorus(0.06, 0.8, 4, 12);
 		}
 		
