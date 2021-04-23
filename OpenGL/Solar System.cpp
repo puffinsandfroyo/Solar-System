@@ -169,20 +169,22 @@ void setLighting(void) {
 
 void display(void)
 {
-	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);	//z-buffering
-	glPushMatrix();
-	glColor4f(1, 1, 1,1);
-	glRotated(90, 1, 0, 0);
-	glutSolidTorus(0.01, 1.5, 10, 100);
-	glutSolidTorus(0.01, 2, 10, 100);
-	glutSolidTorus(0.01, 2.7, 10, 100);
-	glutSolidTorus(0.01, 3.9, 10, 100);
-	glutSolidTorus(0.01, 5.5, 10, 100);
-	glutSolidTorus(0.01, 7.75, 10, 100);
-	glutSolidTorus(0.01, 9.15, 10, 100);
-	glutSolidTorus(0.01, 10.65, 10, 100);
-	glutSolidTorus(0.01, 12, 10, 100);
-	glPopMatrix();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	//z-buffering
+	if (lod == 2) {
+		glPushMatrix();
+		glColor4f(1, 1, 1, 1);
+		glRotated(90, 1, 0, 0);
+		glutSolidTorus(0.01, 1.5, 10, 100);
+		glutSolidTorus(0.01, 2, 10, 100);
+		glutSolidTorus(0.01, 2.7, 10, 100);
+		glutSolidTorus(0.01, 3.9, 10, 100);
+		glutSolidTorus(0.01, 5.5, 10, 100);
+		glutSolidTorus(0.01, 7.75, 10, 100);
+		glutSolidTorus(0.01, 9.15, 10, 100);
+		glutSolidTorus(0.01, 10.65, 10, 100);
+		glutSolidTorus(0.01, 12, 10, 100);
+		glPopMatrix();
+	}
 	glPushMatrix(); //Identity (Matrix 0) Now editing Matrix 1
 	//--Make Sun--//
 	{
