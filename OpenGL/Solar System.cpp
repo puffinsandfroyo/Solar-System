@@ -170,7 +170,7 @@ void setLighting(void) {
 void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	//z-buffering
-	if (lod == 2) {
+	if (lod >= 1) {
 		glPushMatrix();
 		glColor4f(1, 1, 1, 1);
 		glRotated(90, 1, 0, 0);
