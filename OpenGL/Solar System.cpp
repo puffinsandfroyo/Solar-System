@@ -60,7 +60,7 @@ char* GlobalAmbientLightName = "Global Ambient Light *", * PositionalLight1Name 
 
 int width = 1000, height = 500;
 
-const int numPoints = 3000;
+//const int numPoints = 3000;
 //int stars[numPoints];
 
 void init(void)
@@ -114,7 +114,11 @@ void setLighting(void) {
 	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-
+	if (globalAmbientLightOn){
+	glEnable(GL_LIGHT0);
+	}
+	else{glDisable(GL_LIGHT0);}
+	
 	if (positionalLight1On == true){
 		//glPointSize(5.0);
 		//glColor3b(1.0, 1.0, 1.0);
@@ -130,11 +134,14 @@ void setLighting(void) {
 		glLightfv(GL_LIGHT1, GL_AMBIENT, light1_ambient);
 		glLightfv(GL_LIGHT1, GL_DIFFUSE, light1_diffuse);
 		glLightfv(GL_LIGHT1, GL_SPECULAR, light1_specular);
+		glEnable(GL_LIGHT1);
+
 	}
+	else { glDisable(GL_LIGHT1);}
 
 	if (positionalLight2On == true) {
-		GLfloat light2_position[] = { 8, 12, 8, POSITIONAL };
-		GLfloat light2_ambient[] = { 0.0, 0.0, 0.0, 1.0 };
+		GLfloat light2_position[] = { -8,-8, -8, POSITIONAL };
+		GLfloat light2_ambient[] = { 0.8, 0.8, 0.8, 1.0 };
 		GLfloat light2_diffuse[] = { lightDiffuse, lightDiffuse, lightDiffuse, 1.0 };
 		GLfloat light2_specular[] = { 1.0, 1.0, 1.0, 1.0 };
 	
@@ -142,11 +149,11 @@ void setLighting(void) {
 		glLightfv(GL_LIGHT2, GL_AMBIENT, light2_ambient);
 		glLightfv(GL_LIGHT2, GL_DIFFUSE, light2_diffuse);
 		glLightfv(GL_LIGHT2, GL_SPECULAR, light2_specular);
-	}
+		glEnable(GL_LIGHT2);
 
-	glEnable(GL_LIGHT0);
-	glEnable(GL_LIGHT1);
-	glEnable(GL_LIGHT2);
+	}
+	else { glDisable(GL_LIGHT2); }
+	
 }
 
 
@@ -524,17 +531,17 @@ void processLightSubmenuEvents(int option) {
 		break;
 	case PositionalLight1:		positionalLight1On = !positionalLight1On;
 		if (positionalLight1On) {
-			PositionalLight1Name = "Positional Light 1 *";
+			PositionalLight1Name = "Positional Light 1 *"; //glEnable(GL_LIGHT1);
 		}
-		else(PositionalLight1Name = "Positional Light 1");
+		else(PositionalLight1Name = "Positional Light 1"); //glDisable(GL_LIGHT1);
 		break;
 		//star 1
-	case PositionalLight2:		positionalLight2On = !positionalLight2On;
+	case PositionalLight2:		positionalLight2On = !positionalLight2On; //glEnable(GL_LIGHT2);
 		if (positionalLight2On) {
-			PositionalLight2Name = "Positional Light 2 *";
+			PositionalLight2Name = "Positional Light 2 *"; //glEnable(GL_LIGHT2);
 		}
 		else {
-			PositionalLight2Name = "Positional Light 2";
+			PositionalLight2Name = "Positional Light 2"; //glDisable(GL_LIGHT2);
 		}
 
 
