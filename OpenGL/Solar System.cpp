@@ -185,8 +185,8 @@ void display(void)
 		glRotatef(year * 1.5, 0.0, 1.0, 0.0);
 		glTranslatef(1.5, 0.0, 0.0); //Matrix 2(rotate//translate)
 		glColor4f(0.5, 0.2, 0.1, 1.0);
-		if (lod = 2) {
-		glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
+		if (lod == 2) {
+		glRotatef((GLfloat)day/58.66, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
 		}
 		if (solidframe == true) {
 			glutSolidSphere(0.1, 10, 8);
@@ -203,8 +203,8 @@ void display(void)
 	{
 		glRotatef(year * 1.2, 0.0, 1.0, 0.0);
 		glTranslatef(2.0, 0.0, 0.0); //Matrix 2(rotate// translate)
-		if (lod = 2) {
-			glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
+		if (lod == 2) {
+			glRotatef((GLfloat)day/243, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
 		}
 		glColor4f(0.3, 0.3, 0.1, 1.0);
 		if (solidframe == true) {
@@ -222,7 +222,9 @@ void display(void)
 		glTranslatef(2.7, 0.0, 0.0); //Matrix 2 (rotate// translate)
 		glColor4f(0.0, 0.0, 0.8, 1.0);
 		glPushMatrix(); //Matrix 3 (rotate// translate//)
-		glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 3(rotate// translate// rotate )
+		if (lod == 2) {
+			glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 3(rotate// translate// rotate )
+		}
 		if (solidframe == true) {
 			glutSolidSphere(0.3, 10, 8);
 		}
@@ -256,13 +258,16 @@ void display(void)
 		glRotatef(year * 0.8, 0.0, 1.0, 0.0);
 		glTranslatef(3.9, 0.0, 0.0); //Matrix 2(rotate// translate)
 		glColor4f(0.8, 0.0, 0.0, 1.0);
+		if (lod == 2) {
+			glRotatef((GLfloat)day/1.04, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
+		}
 		if (solidframe == true) {
 			glutSolidSphere(0.3, 10, 8);
 		}
 		else if (wireframe == true) {
 			glutWireSphere(0.3, 10, 8);
 		}
-		glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
+		
 	}
 
 	glPopMatrix();
@@ -274,13 +279,16 @@ void display(void)
 	glRotatef(year * 0.6, 0.0, 1.0, 0.0);
 		glTranslatef(5.5, 0.0, 0.0); //Matrix 2(rotate//translate)
 		glColor4f(0.5, 0.2, 0.1, 1.0);
+		if (lod == 2) {
+			glRotatef((GLfloat)day/0.416, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
+		}
 		if (solidframe == true) {
 			glutSolidSphere(0.8, 10, 8);
 		}
 		else if (wireframe == true) {
 			glutWireSphere(0.8, 10, 8);
 		}
-		glRotatef((GLfloat)day, 1.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
+		
 	}
 	glPopMatrix();
 
@@ -290,6 +298,9 @@ void display(void)
 	{glRotatef(year*0.4, 0.0, 1.0, 0.0);
 		glTranslatef(7.75, 0.0, 0.0); //Matrix 2(rotate//translate)
 		glColor4f(0.3, 0.2, 0.2, 1.0);
+		if (lod == 2) {
+			glRotatef((GLfloat)day/0.46, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
+		}
 		if (solidframe == true) {
 			glutSolidSphere(0.6, 10, 8);
 			glPushMatrix();
@@ -302,9 +313,9 @@ void display(void)
 		}
 		else if (wireframe == true) {
 			glutWireSphere(0.8, 10, 8);
-		
+			glutWireTorus(0.06, 0.8, 4, 12);
 		}
-		glRotatef((GLfloat)day, 1.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
+		
 	}
 	glPopMatrix();
 
@@ -315,13 +326,16 @@ void display(void)
 		glRotatef(year * 0.2, 0.0, 1.0, 0.0);
 		glTranslatef(9.15, 0.0, 0.0); //Matrix 2(rotate//translate)
 		glColor4f(0.02, 0.59, 0.62, 1.0);
+		if (lod == 2) {
+			glRotatef((GLfloat)day/0.7, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
+		}
 		if (solidframe == true) {
 			glutSolidSphere(0.6, 10, 8);
 		}
 		else if (wireframe == true) {
 			glutWireSphere(0.6, 10, 8);
 		}
-		glRotatef(-(GLfloat)day, 1.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
+		
 	}
 	glPopMatrix();
 
@@ -332,13 +346,15 @@ void display(void)
 		glRotatef(year * 0.1, 0.0, 1.0, 0.0);
 		glTranslatef(10.65, 0.0, 0.0); //Matrix 2(rotate//translate)
 		glColor4f(0.31, 0.7, 0.89, 1.0);
+		if (lod == 2) {
+			glRotatef((GLfloat)day/0.66, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
+		}
 		if (solidframe == true) {
 			glutSolidSphere(0.7, 10, 8);
 		}
 		else if (wireframe == true) {
 			glutWireSphere(0.7, 10, 8);
 		}
-		glRotatef((GLfloat)day, 1.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
 	}
 	//Pluto (small light brown)
 	glPopMatrix();
@@ -350,13 +366,16 @@ void display(void)
 		glRotatef(year * 0.05, 0.0, 1.0, 0.0);
 		glTranslatef(12.0, 0.0, 0.0); //Matrix 2(rotate//translate)
 		glColor4f(0.5, 0.2, 0.1, 1.0);
+		if (lod == 2) {
+			glRotatef((GLfloat)day, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
+		}
 		if (solidframe == true) {
 			glutSolidSphere(0.2, 10, 8);
 		}
 		else if (wireframe == true) {
 			glutWireSphere(0.2, 10, 8);
 		}
-		glRotatef((GLfloat)day, 1.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate)
+		
 	}
 
 	glPopMatrix(); //Matrix 1(rotate)
