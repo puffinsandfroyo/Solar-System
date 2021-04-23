@@ -60,8 +60,8 @@ char* GlobalAmbientLightName = "Global Ambient Light *", * PositionalLight1Name 
 
 int width = 1000, height = 500;
 
-//const int numPoints = 3000;
-//int stars[numPoints];
+const int numPoints = 3000;
+int stars[numPoints];
 
 void init(void)
 {
@@ -74,6 +74,9 @@ void init(void)
 	glEnable(GL_TEXTURE_2D);
 	glLoadIdentity();
 	
+	for (int i = 0; i < numPoints; i++) {
+		stars[i] = rand() - (RAND_MAX / 2);
+	}
 	//setNightSky(); //This can't sit in init. 
 	//We would need to make an array of stars or something and put it in display.
 }
@@ -189,7 +192,7 @@ void display(void)
 		glRotatef((GLfloat)year, 0.0, 1.0, 0.0); //Matrix 1 (sun) (rotate)
 	}
 	glPushMatrix(); //Working on Matrix 2 (planet) (rotate//)
-	
+
 	//Mercury (dark brown)
 	{
 		//glTranslatef(4.5, 0.0, 0.0);
@@ -197,7 +200,7 @@ void display(void)
 		glTranslatef(1.5, 0.0, 0.0); //Matrix 2(rotate//translate)
 		glColor4f(0.5, 0.2, 0.1, 1.0);
 		if (lod == 2) {
-		glRotatef((GLfloat)day/58.66, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
+			glRotatef((GLfloat)day / 58.66, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
 		}
 		if (solidframe == true) {
 			glutSolidSphere(0.1, 10, 8);
@@ -216,7 +219,7 @@ void display(void)
 		glRotatef(year * 1.2, 0.0, 1.0, 0.0);
 		glTranslatef(2.0, 0.0, 0.0); //Matrix 2(rotate// translate)
 		if (lod == 2) {
-			glRotatef((GLfloat)day/243, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
+			glRotatef((GLfloat)day / 243, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
 		}
 		glColor4f(0.3, 0.3, 0.1, 1.0);
 		if (solidframe == true) {
@@ -247,61 +250,6 @@ void display(void)
 
 		if (lod == 2) {
 			glRotatef((GLfloat)day / 27, 0.0, 1.0, 0.0); //Matrix 3 (rotate// translate// rotate)	
-			
-
-			//Make Moon - only if lod == greatest detail?
-			{glTranslatef(1.0, 0.0, 0.0); //Matrix 3 (rotate// translate// rotate, translate) 
-			glColor4f(0.961, 0.949, 0.816, 1.0);
-			if (solidframe == true) {
-				glutSolidSphere(0.3, 10, 8);
-			}
-			else if (wireframe == true) {
-				glutWireSphere(0.3, 10, 8);//draw moon
-			}
-			}
-		}
-	}
-	glPopMatrix(); //Matrix 2(rotate// translate//)
-	glPopMatrix(); //Matrix 1 (rotate)
-	glPushMatrix(); //Matrix 2(rotate//) 
-	
-	 //--Make Mars--//
-	{
-		glRotatef(year * 0.8, 0.0, 1.0, 0.0);
-		glTranslatef(3.9, 0.0, 0.0); //Matrix 2(rotate// translate)
-		glColor4f(0.8, 0.0, 0.0, 1.0);
-		if (lod == 2) {
-			glRotatef((GLfloat)day/1.04, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
-		}
-		if (solidframe == true) {
-			glutSolidSphere(0.3, 10, 8);
-		}
-		else if (wireframe == true) {
-			glutWireSphere(0.3, 10, 8);
-		}
-		
-	}
-
-	glPopMatrix();
-	
-	glPushMatrix();//Now working on Matrix 2(rotate//)
-
-	//--Make Jupiter--// (light brown)
-	{
-	glRotatef(year * 0.6, 0.0, 1.0, 0.0);
-		glTranslatef(5.5, 0.0, 0.0); //Matrix 2(rotate//translate)
-		glColor4f(0.5, 0.2, 0.1, 1.0);
-		if (lod == 2) {
-			glRotatef((GLfloat)day/0.416, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
-		}
-		if (solidframe == true) {
-			glutSolidSphere(0.8, 10, 8);
-		}
-		else if (wireframe == true) {
-			glutWireSphere(0.8, 10, 8);
-		}
-				if (lod == 2) {
-			glRotatef((GLfloat)day / 27, 0.0, 1.0, 0.0); //Matrix 3 (rotate// translate// rotate)	
 
 
 			//Make Moon - only if lod == greatest detail?
@@ -315,35 +263,92 @@ void display(void)
 			}
 			}
 		}
-		
 	}
+	glPopMatrix(); //Matrix 2(rotate// translate//)
+	glPopMatrix(); //Matrix 1 (rotate)
+	glPushMatrix(); //Matrix 2(rotate//) 
+
+	 //--Make Mars--//
+	{
+		glRotatef(year * 0.8, 0.0, 1.0, 0.0);
+		glTranslatef(3.9, 0.0, 0.0); //Matrix 2(rotate// translate)
+		glColor4f(0.8, 0.0, 0.0, 1.0);
+		if (lod == 2) {
+			glRotatef((GLfloat)day / 1.04, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
+		}
+		if (solidframe == true) {
+			glutSolidSphere(0.3, 10, 8);
+		}
+		else if (wireframe == true) {
+			glutWireSphere(0.3, 10, 8);
+		}
+
+	}
+
 	glPopMatrix();
 
 	glPushMatrix();//Now working on Matrix 2(rotate//)
 
-	//Saturn (orange yellow)
-	{glRotatef(year*0.4, 0.0, 1.0, 0.0);
-		glTranslatef(7.75, 0.0, 0.0); //Matrix 2(rotate//translate)
-		glColor4f(0.3, 0.2, 0.2, 1.0);
+	//--Make Jupiter--// (light brown)
+	{
+		glRotatef(year * 0.6, 0.0, 1.0, 0.0);
+		glTranslatef(5.5, 0.0, 0.0); //Matrix 2(rotate//translate)
+		glColor4f(0.5, 0.2, 0.1, 1.0);
+		glPushMatrix();
 		if (lod == 2) {
-			glRotatef((GLfloat)day/0.46, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
+			glRotatef((GLfloat)day / 0.416, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
 		}
 		if (solidframe == true) {
-			glutSolidSphere(0.6, 10, 8);
-			glPushMatrix();
-			glRotated(90, 1, 0, 0);
-			glColor4f(0.3, 0.2, 0.2, 1.0);
-			//could we alter alpha here to make the rings more transparent?
-			glutSolidTorus(0.06, 0.8, 4, 12);
-
-			glPopMatrix();
+			glutSolidSphere(0.8, 10, 8);
 		}
 		else if (wireframe == true) {
 			glutWireSphere(0.8, 10, 8);
-			glRotated(90, 1, 0, 0);
-			glutWireTorus(0.06, 0.8, 4, 12);
 		}
-		
+		glPopMatrix();
+		if (lod == 2) {
+			glRotatef((GLfloat)day / 5, 0.0, 1.0, 0.0); //Matrix 3 (rotate// translate// rotate)	
+
+
+			//Make Moon - only if lod == greatest detail?
+			{glTranslatef(1.0, 0.0, 0.0); //Matrix 3 (rotate// translate// rotate, translate) 
+			glColor4f(0.961, 0.949, 0.816, 1.0);
+			if (solidframe == true) {
+				glutSolidSphere(0.1, 10, 8);
+			}
+			else if (wireframe == true) {
+				glutWireSphere(0.1, 10, 8);//draw moon
+			}
+			}
+		}
+
+	}
+	glPopMatrix();
+	glPopMatrix();
+	glPushMatrix();//Now working on Matrix 2(rotate//)
+
+	//Saturn (orange yellow)
+	{glRotatef(year * 0.4, 0.0, 1.0, 0.0);
+	glTranslatef(7.75, 0.0, 0.0); //Matrix 2(rotate//translate)
+	glColor4f(0.3, 0.2, 0.2, 1.0);
+	if (lod == 2) {
+		glRotatef((GLfloat)day / 0.46, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
+	}
+	if (solidframe == true) {
+		glutSolidSphere(0.6, 10, 8);
+		glPushMatrix();
+		glRotated(90, 1, 0, 0);
+		glColor4f(0.3, 0.2, 0.2, 1.0);
+		//could we alter alpha here to make the rings more transparent?
+		glutSolidTorus(0.06, 0.8, 4, 12);
+
+		glPopMatrix();
+	}
+	else if (wireframe == true) {
+		glutWireSphere(0.8, 10, 8);
+		glRotated(90, 1, 0, 0);
+		glutWireTorus(0.06, 0.8, 4, 12);
+	}
+
 	}
 	glPopMatrix();
 
@@ -355,7 +360,7 @@ void display(void)
 		glTranslatef(9.15, 0.0, 0.0); //Matrix 2(rotate//translate)
 		glColor4f(0.02, 0.59, 0.62, 1.0);
 		if (lod == 2) {
-			glRotatef((GLfloat)day/0.7, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
+			glRotatef((GLfloat)day / 0.7, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
 		}
 		if (solidframe == true) {
 			glutSolidSphere(0.6, 10, 8);
@@ -363,7 +368,7 @@ void display(void)
 		else if (wireframe == true) {
 			glutWireSphere(0.6, 10, 8);
 		}
-		
+
 	}
 	glPopMatrix();
 
@@ -375,7 +380,7 @@ void display(void)
 		glTranslatef(10.65, 0.0, 0.0); //Matrix 2(rotate//translate)
 		glColor4f(0.31, 0.7, 0.89, 1.0);
 		if (lod == 2) {
-			glRotatef((GLfloat)day/0.66, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
+			glRotatef((GLfloat)day / 0.66, 0.0, 1.0, 0.0); //Matrix 2(rotate// translate, rotate )
 		}
 		if (solidframe == true) {
 			glutSolidSphere(0.7, 10, 8);
@@ -403,21 +408,23 @@ void display(void)
 		else if (wireframe == true) {
 			glutWireSphere(0.2, 10, 8);
 		}
-		
+
 	}
 
 	glPopMatrix(); //Matrix 1(rotate)
 	glPopMatrix(); // Go back to the origin
+
+	glPointSize(1.0);	//attempt at stars
+	glColor4f(1.0, 1.0, 1.0, 1.0);
+	for (int x = 0; x < numPoints; x++) {
+		glBegin(GL_POINTS);
+		glVertex3i(stars[x] % 15, stars[x + 1] % 12, stars[x + 2] % (-width / 2));
+		glEnd();
+	}
+
 	setLighting();
 	glutSwapBuffers();
 
-	/*glPointSize(10.0);	//attempt at stars
-	glColor4f(0.0, 1.0, 1.0, 1.0);
-	for (int x = 0; x < numPoints; x++) {
-		glBegin(GL_POINTS);
-		glVertex3i(rand() % 10, rand() % 12, rand() % 12);
-		glEnd();
-	}*/
 }
 
 void reshape(int w, int h)
@@ -539,7 +546,7 @@ void processLightSubmenuEvents(int option) {
 			GlobalAmbientLightName = "Global Ambient Light *";
 		}
 		else {
-			globalAmbient = 0.05;
+			globalAmbient = 0.0;
 			GlobalAmbientLightName = "Global Ambient Light";
 		}
 
