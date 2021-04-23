@@ -57,6 +57,9 @@ float globalAmbient = 0.2;
 float lightX = 0.0, lightY = 0.0, lightZ = 0.0;
 float lightDiffuse = 0.9;
 
+char * WireFrameName = "Wire Frame", *FlatShadingName = "Solid Frame & Flat Shading * ", *SmoothShadingName = "Solid Frame & Smooth Shading ";
+char* GlobalAmbientLightName = "Global Ambient Light *", * PositionalLight1Name = "Positional Light 1 *", * PositionalLight2Name = "Positional Light 2";
+
 int width = 1000, height = 500;
 
 void setNightSky(void)
@@ -131,15 +134,20 @@ void setLighting(void) {
 	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
 
 	if (positionalLight1On == true){
-		GLfloat light_position[] = { 8, 8, 8, POSITIONAL };
-		GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 1.0 };
-		GLfloat light_diffuse[] = { lightDiffuse, lightDiffuse, lightDiffuse, 1.0 };
-		GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+		//glPointSize(5.0);
+		//glColor3b(1.0, 1.0, 1.0);
+		//glBegin(GL_POINTS);
+		//glVertex3d(8, 8, 8);
+		//glEnd();
+		GLfloat light1_position[] = { 8, 8, 8, POSITIONAL };
+		GLfloat light1_ambient[] = { 0.5, 0.5, 0.5, 1.0 };
+		GLfloat light1_diffuse[] = { lightDiffuse, lightDiffuse, lightDiffuse, 1.0 };
+		GLfloat light1_specular[] = { 1.0, 1.0, 1.0, 1.0 };
 
-		//glLightfv(GL_LIGHT1, GL_POSITION, light_position);
-		//glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient);
-		//glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse);
-		//glLightfv(GL_LIGHT1, GL_SPECULAR, light_specular);
+		glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
+		glLightfv(GL_LIGHT1, GL_AMBIENT, light1_ambient);
+		glLightfv(GL_LIGHT1, GL_DIFFUSE, light1_diffuse);
+		glLightfv(GL_LIGHT1, GL_SPECULAR, light1_specular);
 	}
 
 	if (positionalLight2On == true) {
@@ -497,37 +505,65 @@ void specialInput(int key, int x, int y) {
 
 void processLightSubmenuEvents(int option) {
 	switch (option) {
-	case GlobalAmbientLight:	if (globalAmbientLightOn) globalAmbient = 0.2;
-								else globalAmbient = 0.0;
-								globalAmbientLightOn = !globalAmbientLightOn;
-								break;
+	case GlobalAmbientLight:	globalAmbientLightOn = !globalAmbientLightOn;
+		if (globalAmbientLightOn) {
+			globalAmbient = 0.2;
+			GlobalAmbientLightName = "Global Ambient Light *";
+		}
+		else {
+			globalAmbient = 0.0;
+			GlobalAmbientLightName = "Global Ambient Light";
+		}
+
+		break;
 	case PositionalLight1:		positionalLight1On = !positionalLight1On;
-								break;
+		if (positionalLight1On) {
+			PositionalLight1Name = "Positional Light 1 *";
+		}
+		else(PositionalLight1Name = "Positional Light 1");
+		break;
 		//star 1
-	case PositionalLight2:		if (positionalLight2On);
-								else;
-								positionalLight2On = !positionalLight2On;
-								break;
-		//star 2
-//case DirectionalLight:
+	case PositionalLight2:	positionalLight2On = !positionalLight2On;
+		if (positionalLight2On) {
+			PositionalLight2Name = "Positional Light 2 *";
+		}
+		else; {
+			PositionalLight2Name = "Positional Light 2";
+		}
+
+
+		break;
 	}
+	glutChangeToMenuEntry(1, GlobalAmbientLightName, 1); glutChangeToMenuEntry(2, PositionalLight1Name, 2); glutChangeToMenuEntry(3, PositionalLight2Name, 3);
+	glutPostRedisplay();	//star 2
+//case DirectionalLight:
+	
 }
 
 void processDisplaySubmenuEvents(int option){
-	switch(option){
-		case WireFrame:		wireframe = true;
-							solidframe = false;
-							break;
-		case SolidFrame:	wireframe = false;
-							solidframe = true;
-							break;
-		case FlatShading:	flatshading = true;
-							smoothshading = false; 
-							break;
-		case SmoothShading:	flatshading = false; 
-							smoothshading = true; 
-							break;
+	switch (option) {
+	case WireFrame:		wireframe = true;
+		solidframe = false;
+		WireFrameName = "Wire Frame*"; FlatShadingName = "Solid Frame & Flat Shading"; SmoothShadingName = "Solid Frame & Smooth Shading";
+		break;
+	case FlatShading:	flatshading = true;
+		smoothshading = false;
+		wireframe = false;
+		solidframe = true;
+		glShadeModel(GL_FLAT);
+		WireFrameName = "Wire Frame"; FlatShadingName = "Solid Frame & Flat Shading* "; SmoothShadingName = "Solid Frame & Smooth Shading";
+		break;
+	case SmoothShading:	flatshading = false;
+		smoothshading = true;
+		wireframe = false;
+		solidframe = true;
+		glShadeModel(GL_SMOOTH);
+		WireFrameName = "Wire Frame"; FlatShadingName = "Solid Frame & Flat Shading"; SmoothShadingName = "Solid Frame & Smooth Shading*";
+		break;
 	}
+	glutChangeToMenuEntry(1, WireFrameName, 5); glutChangeToMenuEntry(2, FlatShadingName, 7); glutChangeToMenuEntry(3, SmoothShadingName, 8);
+	
+	glutPostRedisplay();
 }
 
 int main(int argc, char** argv)
@@ -550,17 +586,18 @@ int main(int argc, char** argv)
 	// create menu
 	//int lightSubmenu;
 	//lightSubmenu = 
-	glutCreateMenu(processLightSubmenuEvents);
-	glutAddMenuEntry("Ambient Light", GlobalAmbientLight);
-	glutAddMenuEntry("Positional light 1", positionalLight1On);
-	glutAddMenuEntry("Positional light 2", positionalLight2On);
+	int lightmenu = glutCreateMenu(processLightSubmenuEvents);
+	glutAddMenuEntry(GlobalAmbientLightName, GlobalAmbientLight);
+	glutAddMenuEntry(PositionalLight1Name, PositionalLight1);
+	glutAddMenuEntry(PositionalLight2Name, PositionalLight2);
 	glutAttachMenu(GLUT_LEFT_BUTTON);
 
-	glutCreateMenu(processDisplaySubmenuEvents);
-	glutAddMenuEntry("Wire Frame", WireFrame);
-	glutAddMenuEntry("Solid Frame", SolidFrame);
-	glutAddMenuEntry("Flat Shading", FlatShading);
-	glutAddMenuEntry("Smooth Shading", SmoothShading);
+	
+	int displaymenu = glutCreateMenu(processDisplaySubmenuEvents);
+	glutAddMenuEntry(WireFrameName, WireFrame);
+	//glutAddMenuEntry("Solid Frame", SolidFrame);
+	glutAddMenuEntry(FlatShadingName, FlatShading);
+	glutAddMenuEntry(SmoothShadingName, SmoothShading);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
 	glutMainLoop();
